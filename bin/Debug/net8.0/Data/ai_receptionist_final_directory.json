@@ -1,0 +1,2162 @@
+[
+  {
+    "name": "Main Reception",
+    "type": "department",
+    "department": "reception",
+    "keywords": [
+      "reception",
+      "operator",
+      "front desk",
+      "main line"
+    ],
+    "phone_e164": "+14506821212",
+    "phone_display": "(450) 682-1212",
+    "extension": "",
+    "site": "Company",
+    "notes": "Main auto-receptionist number"
+  },
+  {
+    "name": "BMW Sales",
+    "type": "department",
+    "department": "sales",
+    "keywords": [
+      "sales",
+      "new car sales",
+      "bmw sales",
+      "buy a car",
+      "vehicle sales",
+      "car sales",
+      "new car",
+      "used car",
+      "vente",
+      "ventes",
+      "achat",
+      "acheter",
+      "acheter une voiture",
+      "acheter une auto",
+      "voiture",
+      "auto",
+      "véhicule",
+      "auto neuve",
+      "voiture neuve",
+      "auto usagée",
+      "voiture usagée",
+      "bmw",
+      "bmw ventes"
+    ],
+    "phone_e164": "+14506867280",
+    "phone_display": "(450) 686-7280",
+    "extension": "450",
+    "site": "Company",
+    "notes": "Call queue"
+  },
+  {
+    "name": "BMW Pre-Owned Sales",
+    "type": "department",
+    "department": "sales",
+    "keywords": [
+      "used car",
+      "used cars",
+      "pre owned",
+      "pre-owned",
+      "used sales",
+      "bmw pre owned",
+      "bmw pre-owned",
+      "pre owned sales",
+      "used vehicle",
+      "used vehicles",
+      "second hand car",
+      "certified pre owned",
+      "cpo",
+      "occasion",
+      "véhicule d'occasion",
+      "véhicules d'occasion",
+      "voiture d'occasion",
+      "voitures d'occasion",
+      "auto d'occasion",
+      "autos d'occasion",
+      "usagé",
+      "usagée",
+      "usagés",
+      "usagées",
+      "auto usagée",
+      "voiture usagée",
+      "véhicule usagé",
+      "bmw d'occasion",
+      "bmw usagée",
+      "prépossédé",
+      "pré-possédé",
+      "certifié",
+      "bmw occasion"
+    ],
+    "phone_e164": "+14506867247",
+    "phone_display": "(450) 686-7247",
+    "extension": "445",
+    "site": "Company",
+    "notes": "Call queue"
+  },
+  {
+    "name": "MINI Sales",
+    "type": "department",
+    "department": "sales",
+    "keywords": [
+      "mini sales",
+      "mini",
+      "buy mini",
+      "mini car",
+      "mini vehicle",
+      "new mini",
+      "used mini",
+      "mini dealership",
+      "mini purchase",
+      "mini sales department",
+      "mini",
+      "mini ventes",
+      "vente mini",
+      "acheter mini",
+      "achat mini",
+      "voiture mini",
+      "auto mini",
+      "véhicule mini",
+      "mini neuve",
+      "mini usagée",
+      "mini occasion",
+      "bmw mini",
+      "je veux une mini",
+      "je cherche une mini"
+    ],
+    "phone_e164": "+14506867255",
+    "phone_display": "(450) 686-7255",
+    "extension": "451",
+    "site": "Company",
+    "notes": "Call queue"
+  },
+  {
+    "name": "Parts Department",
+    "type": "department",
+    "department": "parts",
+    "keywords": [
+      "parts",
+      "parts department",
+      "parts counter",
+      "accessories",
+      "tires",
+      "car parts",
+      "auto parts",
+      "bmw parts",
+      "mini parts",
+      "order parts",
+      "spare parts",
+      "pièces",
+      "pièce",
+      "département des pièces",
+      "comptoir des pièces",
+      "pièces auto",
+      "pièces voiture",
+      "pièces bmw",
+      "pièces mini",
+      "commander des pièces",
+      "accessoires",
+      "accessoire",
+      "pneus",
+      "pneu",
+      "acheter des pièces",
+      "pièces détachées",
+      "j’ai besoin de pièces",
+      "je cherche une pièce"
+    ],
+    "phone_e164": "+14506867287",
+    "phone_display": "(450) 686-7287",
+    "extension": "400",
+    "site": "Company",
+    "notes": "Primary parts front queue"
+  },
+  {
+    "name": "Parts Wholesale",
+    "type": "department",
+    "department": "parts",
+    "keywords": [
+      "parts wholesale",
+      "wholesale parts",
+      "bulk parts",
+      "commercial parts",
+      "dealer parts",
+      "body shop parts",
+      "garage parts",
+      "shop parts",
+      "bmw wholesale parts",
+      "mini wholesale parts",
+      "pièces en gros",
+      "grossiste pièces",
+      "pièces grossiste",
+      "pièces commercial",
+      "pièces commerciales",
+      "pièces garage",
+      "pièces atelier",
+      "pièces carrosserie",
+      "pièces pour garage",
+      "pièces pour atelier",
+      "pièces en volume",
+      "pièces bmw en gros",
+      "pièces mini en gros",
+      "compte commercial",
+      "compte garage",
+      "commande en gros",
+      "je suis un garage",
+      "je suis un atelier"
+    ],
+    "phone_e164": "+14506867240",
+    "phone_display": "(450) 686-7240",
+    "extension": "402",
+    "site": "Company",
+    "notes": "Direct number"
+  },
+  {
+    "name": "Service Reception",
+    "type": "department",
+    "department": "service",
+    "keywords": [
+      "service",
+      "service department",
+      "repair",
+      "maintenance",
+      "appointment",
+      "advisor",
+      "car service",
+      "vehicle service",
+      "book service",
+      "schedule service",
+      "oil change",
+      "brakes",
+      "engine problem",
+      "car problem",
+      "check engine",
+      "warning light",
+      "my car is not working",
+      "car won't start",
+      "car not starting",
+      "need mechanic",
+      "service",
+      "département du service",
+      "réparation",
+      "entretien",
+      "rendez-vous",
+      "prendre rendez-vous",
+      "conseiller",
+      "conseiller service",
+      "mécanique",
+      "garage",
+      "changer huile",
+      "changement d'huile",
+      "freins",
+      "problème moteur",
+      "problème voiture",
+      "lumière moteur",
+      "voyant moteur",
+      "ma voiture ne démarre pas",
+      "auto ne démarre pas",
+      "j'ai un problème avec ma voiture",
+      "j'ai besoin d'un mécanicien",
+      "inspection",
+      "entretien périodique"
+    ],
+    "phone_e164": "+14388424112",
+    "phone_display": "(438) 842-4112",
+    "extension": "301",
+    "site": "Company",
+    "notes": "Reception Service"
+  },
+  {
+    "name": "Used Reception",
+    "type": "department",
+    "department": "sales",
+    "keywords": [
+      "used reception",
+      "used department",
+      "pre owned reception",
+      "used cars",
+      "used car",
+      "pre owned",
+      "pre-owned",
+      "used vehicle",
+      "bmw used",
+      "bmw pre owned",
+      "looking for used car",
+      "buy used car",
+      "occasion",
+      "véhicule d'occasion",
+      "véhicules d'occasion",
+      "voiture d'occasion",
+      "voitures d'occasion",
+      "auto d'occasion",
+      "autos d'occasion",
+      "usagé",
+      "usagée",
+      "auto usagée",
+      "voiture usagée",
+      "véhicule usagé",
+      "bmw d'occasion",
+      "bmw usagée",
+      "occasion bmw",
+      "je cherche une voiture usagée",
+      "je veux une auto d'occasion",
+      "parler aux ventes d'occasion",
+      "service occasion"
+    ],
+    "phone_e164": "+14388423987",
+    "phone_display": "(438) 842-3987",
+    "extension": "241",
+    "site": "Company",
+    "notes": "Direct number"
+  },
+  {
+    "name": "BDC",
+    "type": "department",
+    "department": "bdc",
+    "keywords": [
+      "bdc",
+      "business development",
+      "internet leads",
+      "lead follow up",
+      "appointments",
+      "call back",
+      "callback",
+      "follow up",
+      "missed call",
+      "return my call",
+      "someone called me",
+      "i got a call",
+      "book appointment",
+      "schedule appointment",
+      "confirm appointment",
+      "reschedule appointment",
+      "cancel appointment",
+      "rappel",
+      "me rappeler",
+      "retour d'appel",
+      "quelqu'un m'a appelé",
+      "j'ai reçu un appel",
+      "rendez-vous",
+      "prendre rendez-vous",
+      "confirmer rendez-vous",
+      "modifier rendez-vous",
+      "changer rendez-vous",
+      "annuler rendez-vous",
+      "suivi",
+      "suivi client",
+      "relance",
+      "je veux un rappel",
+      "on m'a appelé",
+      "je retourne un appel",
+      "rendez vous",
+      "prendre rendez vous",
+      "rdv",
+      "appointment",
+      "service appointment",
+      "book service",
+      "reschedule",
+      "reschedule service",
+      "change appointment",
+      "changer rendez vous",
+      "déplacer rendez vous",
+      "reporter rendez vous"
+    ],
+    "phone_e164": "+14506867272",
+    "phone_display": "(450) 686-7272",
+    "extension": "655",
+    "site": "Company",
+    "notes": "Call queue"
+  },
+  {
+    "name": "Finance & Insurance",
+    "type": "department",
+    "department": "finance",
+    "keywords": [
+      "finance",
+      "insurance",
+      "f&i",
+      "leasing",
+      "financing",
+      "car financing",
+      "auto financing",
+      "loan",
+      "car loan",
+      "lease",
+      "car lease",
+      "payment",
+      "monthly payment",
+      "credit application",
+      "apply for financing",
+      "interest rate",
+      "extended warranty",
+      "warranty",
+      "vehicle protection",
+      "financement",
+      "assurance",
+      "crédit",
+      "prêt auto",
+      "prêt voiture",
+      "paiement",
+      "paiement mensuel",
+      "mensualité",
+      "leasing",
+      "location",
+      "location auto",
+      "financer une voiture",
+      "demande de crédit",
+      "faire une demande de financement",
+      "taux d'intérêt",
+      "garantie",
+      "garantie prolongée",
+      "protection véhicule",
+      "assurance auto",
+      "je veux financer",
+      "je veux louer",
+      "je veux un paiement mensuel"
+    ],
+    "phone_e164": "+14506867254",
+    "phone_display": "(450) 686-7254",
+    "extension": "449",
+    "site": "Company",
+    "notes": "Call queue"
+  },
+  {
+    "name": "Collision Centre",
+    "type": "department",
+    "department": "collision",
+    "keywords": [
+      "collision",
+      "body shop",
+      "bodywork",
+      "accident",
+      "car accident",
+      "insurance claim",
+      "damage",
+      "car damage",
+      "repair damage",
+      "dent",
+      "scratch",
+      "paint repair",
+      "bumper repair",
+      "crash",
+      "hit my car",
+      "someone hit my car",
+      "i had an accident",
+      "collision",
+      "carrosserie",
+      "atelier carrosserie",
+      "accident",
+      "accident voiture",
+      "sinistre",
+      "réclamation assurance",
+      "assurance",
+      "dommages",
+      "dommage voiture",
+      "réparation carrosserie",
+      "bosse",
+      "égratignure",
+      "peinture",
+      "réparation pare-chocs",
+      "pare-chocs",
+      "on a frappé ma voiture",
+      "j'ai eu un accident",
+      "ma voiture est endommagée",
+      "réparation accident"
+    ],
+    "phone_e164": "+14506867379",
+    "phone_display": "(450) 686-7379",
+    "extension": "30001",
+    "site": "Carrosserie Certifiée",
+    "notes": "Site number"
+  },
+  {
+    "name": "Reception MINI",
+    "type": "department",
+    "department": "reception",
+    "keywords": [
+      "mini reception",
+      "mini front desk",
+      "mini operator",
+      "mini main line",
+      "mini dealership",
+      "mini store",
+      "mini location",
+      "mini phone",
+      "mini help",
+      "mini info",
+      "mini information",
+      "mini customer service",
+      "mini general inquiry",
+      "réception mini",
+      "accueil mini",
+      "standard mini",
+      "ligne principale mini",
+      "concession mini",
+      "mini concessionnaire",
+      "mini info",
+      "information mini",
+      "service client mini",
+      "je veux parler à mini",
+      "je cherche mini",
+      "appeler mini",
+      "joindre mini"
+    ],
+    "phone_e164": "+14506824592",
+    "phone_display": "(450) 682-4592",
+    "extension": "302",
+    "site": "Company",
+    "notes": "Direct number"
+  },
+  {
+    "name": "Mina Rabbat",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "mina rabbat",
+      "mina",
+      "rabbat",
+      "service"
+    ],
+    "phone_e164": "+14506867263",
+    "phone_display": "(450) 686-7263",
+    "extension": "231",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Gerardo D'Argenio",
+    "type": "employee",
+    "department": "management",
+    "keywords": [
+      "gerardo d'argenio",
+      "gerardo",
+      "d'argenio"
+    ],
+    "phone_e164": "+14506867241",
+    "phone_display": "(450) 686-7241",
+    "extension": "234",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Stephanie Chung",
+    "type": "employee",
+    "department": "collision",
+    "keywords": [
+      "stephanie chung",
+      "stephanie",
+      "chung",
+      "collision"
+    ],
+    "phone_e164": "+14388424119",
+    "phone_display": "(438) 842-4119",
+    "extension": "307",
+    "site": "Carrosserie Certifiée",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Nabil Merheb",
+    "type": "employee",
+    "department": "collision",
+    "keywords": [
+      "nabil merheb",
+      "nabil",
+      "merheb",
+      "collision"
+    ],
+    "phone_e164": "+14388426125",
+    "phone_display": "(438) 842-6125",
+    "extension": "237",
+    "site": "Carrosserie Certifiée",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Stephen Pitts",
+    "type": "employee",
+    "department": "collision",
+    "keywords": [
+      "stephen pitts",
+      "stephen",
+      "pitts",
+      "collision"
+    ],
+    "phone_e164": "+14388426447",
+    "phone_display": "(438) 842-6447",
+    "extension": "204",
+    "site": "Carrosserie Certifiée",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Anouchka Djogou",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "anouchka djogou",
+      "anouchka",
+      "djogou"
+    ],
+    "phone_e164": "+14388423817",
+    "phone_display": "(438) 842-3817",
+    "extension": "350",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Éloïse Demers",
+    "type": "employee",
+    "department": "collision",
+    "keywords": [
+      "éloïse demers",
+      "éloïse",
+      "demers",
+      "collision"
+    ],
+    "phone_e164": "+14388423994",
+    "phone_display": "(438) 842-3994",
+    "extension": "242",
+    "site": "Carrosserie Certifiée",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Julia Lazecka",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "julia lazecka",
+      "julia",
+      "lazecka"
+    ],
+    "phone_e164": "+14388424108",
+    "phone_display": "(438) 842-4108",
+    "extension": "336",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Brian Medeiros",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "brian medeiros",
+      "brian",
+      "medeiros"
+    ],
+    "phone_e164": "+14388426459",
+    "phone_display": "(438) 842-6459",
+    "extension": "337",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Craig Spiro",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "craig spiro",
+      "craig",
+      "spiro",
+      "sales"
+    ],
+    "phone_e164": "+14388425267",
+    "phone_display": "(438) 842-5267",
+    "extension": "296",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Programing Bay",
+    "type": "employee",
+    "department": "staff",
+    "keywords": [
+      "programing bay",
+      "programing",
+      "bay"
+    ],
+    "phone_e164": "+14388425232",
+    "phone_display": "(438) 842-5232",
+    "extension": "520",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Mario Deschenes",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "mario deschenes",
+      "mario",
+      "deschenes",
+      "service"
+    ],
+    "phone_e164": "+14388423998",
+    "phone_display": "(438) 842-3998",
+    "extension": "210",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Christian Bordeleau",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "christian bordeleau",
+      "christian",
+      "bordeleau",
+      "service"
+    ],
+    "phone_e164": "+14388424101",
+    "phone_display": "(438) 842-4101",
+    "extension": "219",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Felice Florio",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "felice florio",
+      "felice",
+      "florio",
+      "service"
+    ],
+    "phone_e164": "+14388423995",
+    "phone_display": "(438) 842-3995",
+    "extension": "228",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Output Admin - BMW Laval",
+    "type": "employee",
+    "department": "staff",
+    "keywords": [
+      "output admin bmw laval",
+      "output",
+      "admin"
+    ],
+    "phone_e164": "+14388424100",
+    "phone_display": "(438) 842-4100",
+    "extension": "9999",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Francois Léveillé",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "francois léveillé",
+      "francois",
+      "léveillé"
+    ],
+    "phone_e164": "+14506867807",
+    "phone_display": "(450) 686-7807",
+    "extension": "356",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Vincent Carlini",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "vincent carlini",
+      "vincent",
+      "carlini"
+    ],
+    "phone_e164": "+14506867293",
+    "phone_display": "(450) 686-7293",
+    "extension": "349",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Christian El-Khal",
+    "type": "employee",
+    "department": "staff",
+    "keywords": [
+      "christian el khal",
+      "christian",
+      "el"
+    ],
+    "phone_e164": "+14506867267",
+    "phone_display": "(450) 686-7267",
+    "extension": "247",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Laurent Simard",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "laurent simard",
+      "laurent",
+      "simard",
+      "service"
+    ],
+    "phone_e164": "+14506824107",
+    "phone_display": "(450) 682-4107",
+    "extension": "217",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Tania Laplante",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "tania laplante",
+      "tania",
+      "laplante",
+      "service"
+    ],
+    "phone_e164": "+14506867273",
+    "phone_display": "(450) 686-7273",
+    "extension": "218",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Tony Posca",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "tony posca",
+      "tony",
+      "posca",
+      "service"
+    ],
+    "phone_e164": "+14506867246",
+    "phone_display": "(450) 686-7246",
+    "extension": "220",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Amanda Fernandez",
+    "type": "employee",
+    "department": "management",
+    "keywords": [
+      "amanda fernandez",
+      "amanda",
+      "fernandez"
+    ],
+    "phone_e164": "+14506867284",
+    "phone_display": "(450) 686-7284",
+    "extension": "226",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Jimmi Brizzi",
+    "type": "employee",
+    "department": "management",
+    "keywords": [
+      "jimmi brizzi",
+      "jimmi",
+      "brizzi"
+    ],
+    "phone_e164": "+14506867244",
+    "phone_display": "(450) 686-7244",
+    "extension": "227",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Marc-Andre Jeannotte",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "marc andre jeannotte",
+      "marc",
+      "andre"
+    ],
+    "phone_e164": "+14506867253",
+    "phone_display": "(450) 686-7253",
+    "extension": "345",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Francois-Xavier Richmond",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "francois xavier richmond",
+      "francois",
+      "xavier"
+    ],
+    "phone_e164": "+14506867279",
+    "phone_display": "(450) 686-7279",
+    "extension": "357",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Silvia Jurjevic",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "silvia jurjevic",
+      "silvia",
+      "jurjevic"
+    ],
+    "phone_e164": "+14506824593",
+    "phone_display": "(450) 682-4593",
+    "extension": "359",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Gary Malka",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "gary malka",
+      "gary",
+      "malka"
+    ],
+    "phone_e164": "+14506867804",
+    "phone_display": "(450) 686-7804",
+    "extension": "338",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Joseph Sabbah",
+    "type": "employee",
+    "department": "management",
+    "keywords": [
+      "joseph sabbah",
+      "joseph",
+      "sabbah"
+    ],
+    "phone_e164": "+14506867250",
+    "phone_display": "(450) 686-7250",
+    "extension": "202",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Carmine D'Argenio",
+    "type": "employee",
+    "department": "management",
+    "keywords": [
+      "carmine d'argenio",
+      "carmine",
+      "d'argenio"
+    ],
+    "phone_e164": "+14506867269",
+    "phone_display": "(450) 686-7269",
+    "extension": "203",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Paulo Alexandre",
+    "type": "employee",
+    "department": "management",
+    "keywords": [
+      "paulo alexandre",
+      "paulo",
+      "alexandre"
+    ],
+    "phone_e164": "+14506867291",
+    "phone_display": "(450) 686-7291",
+    "extension": "205",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Kristian Ovcharov",
+    "type": "employee",
+    "department": "management",
+    "keywords": [
+      "kristian ovcharov",
+      "kristian",
+      "ovcharov"
+    ],
+    "phone_e164": "+14506867274",
+    "phone_display": "(450) 686-7274",
+    "extension": "208",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "MINI Off-Brand",
+    "type": "employee",
+    "department": "staff",
+    "keywords": [
+      "mini off brand",
+      "mini",
+      "off"
+    ],
+    "phone_e164": "+14506867285",
+    "phone_display": "(450) 686-7285",
+    "extension": "453",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Jonathan Fishman",
+    "type": "employee",
+    "department": "management",
+    "keywords": [
+      "jonathan fishman",
+      "jonathan",
+      "fishman"
+    ],
+    "phone_e164": "+14506867265",
+    "phone_display": "(450) 686-7265",
+    "extension": "212",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Tommy Lourenço-Tiburcio",
+    "type": "employee",
+    "department": "management",
+    "keywords": [
+      "tommy lourenço tiburcio",
+      "tommy",
+      "lourenço"
+    ],
+    "phone_e164": "+14506867294",
+    "phone_display": "(450) 686-7294",
+    "extension": "213",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Joel Belzile",
+    "type": "employee",
+    "department": "management",
+    "keywords": [
+      "joel belzile",
+      "joel",
+      "belzile"
+    ],
+    "phone_e164": "+14506867282",
+    "phone_display": "(450) 686-7282",
+    "extension": "215",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Massimo D'Argenio",
+    "type": "employee",
+    "department": "management",
+    "keywords": [
+      "massimo d'argenio",
+      "massimo",
+      "d'argenio"
+    ],
+    "phone_e164": "+14506867261",
+    "phone_display": "(450) 686-7261",
+    "extension": "216",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "James Giannoukakis",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "james giannoukakis",
+      "james",
+      "giannoukakis",
+      "sales"
+    ],
+    "phone_e164": "+14506867295",
+    "phone_display": "(450) 686-7295",
+    "extension": "280",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Victoria Iovan",
+    "type": "employee",
+    "department": "management",
+    "keywords": [
+      "victoria iovan",
+      "victoria",
+      "iovan"
+    ],
+    "phone_e164": "+14506867243",
+    "phone_display": "(450) 686-7243",
+    "extension": "233",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Gianluca Fiorani",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "gianluca fiorani",
+      "gianluca",
+      "fiorani",
+      "sales"
+    ],
+    "phone_e164": "+14506867289",
+    "phone_display": "(450) 686-7289",
+    "extension": "292",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Patrick d'Achille",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "patrick d'achille",
+      "patrick",
+      "d'achille",
+      "sales"
+    ],
+    "phone_e164": "+14506867242",
+    "phone_display": "(450) 686-7242",
+    "extension": "293",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Angelina Mastandrea",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "angelina mastandrea",
+      "angelina",
+      "mastandrea",
+      "sales"
+    ],
+    "phone_e164": "+14506867275",
+    "phone_display": "(450) 686-7275",
+    "extension": "294",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Prosper Chevalier",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "prosper chevalier",
+      "prosper",
+      "chevalier",
+      "sales"
+    ],
+    "phone_e164": "+14506867256",
+    "phone_display": "(450) 686-7256",
+    "extension": "299",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Charles Bocti",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "charles bocti",
+      "charles",
+      "bocti"
+    ],
+    "phone_e164": "+14506867251",
+    "phone_display": "(450) 686-7251",
+    "extension": "303",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Sebastien Aube",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "sebastien aube",
+      "sebastien",
+      "aube"
+    ],
+    "phone_e164": "+14506867371",
+    "phone_display": "(450) 686-7371",
+    "extension": "304",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Cedric Baillet",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "cedric baillet",
+      "cedric",
+      "baillet"
+    ],
+    "phone_e164": "+14506867252",
+    "phone_display": "(450) 686-7252",
+    "extension": "306",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Fabrizio Caldarone",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "fabrizio caldarone",
+      "fabrizio",
+      "caldarone"
+    ],
+    "phone_e164": "+14506867296",
+    "phone_display": "(450) 686-7296",
+    "extension": "312",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Patricia Chayer",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "patricia chayer",
+      "patricia",
+      "chayer"
+    ],
+    "phone_e164": "+14506867378",
+    "phone_display": "(450) 686-7378",
+    "extension": "314",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Hugo Rodriguez",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "hugo rodriguez",
+      "hugo",
+      "rodriguez"
+    ],
+    "phone_e164": "+14506867806",
+    "phone_display": "(450) 686-7806",
+    "extension": "320",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Maher Mikhail",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "maher mikhail",
+      "maher",
+      "mikhail"
+    ],
+    "phone_e164": "+14506867373",
+    "phone_display": "(450) 686-7373",
+    "extension": "330",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Rachel Loutfi",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "rachel loutfi",
+      "rachel",
+      "loutfi"
+    ],
+    "phone_e164": "+14506867298",
+    "phone_display": "(450) 686-7298",
+    "extension": "344",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Adelina Caldarone",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "adelina caldarone",
+      "adelina",
+      "caldarone",
+      "sales"
+    ],
+    "phone_e164": "+14506867292",
+    "phone_display": "(450) 686-7292",
+    "extension": "278",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Gary Kamjian",
+    "type": "employee",
+    "department": "management",
+    "keywords": [
+      "gary kamjian",
+      "gary",
+      "kamjian"
+    ],
+    "phone_e164": "+14506867290",
+    "phone_display": "(450) 686-7290",
+    "extension": "240",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Ozan Odyakmaz",
+    "type": "employee",
+    "department": "management",
+    "keywords": [
+      "ozan odyakmaz",
+      "ozan",
+      "odyakmaz"
+    ],
+    "phone_e164": "+14506867249",
+    "phone_display": "(450) 686-7249",
+    "extension": "243",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Peter Nastasi",
+    "type": "employee",
+    "department": "management",
+    "keywords": [
+      "peter nastasi",
+      "peter",
+      "nastasi"
+    ],
+    "phone_e164": "+14506867286",
+    "phone_display": "(450) 686-7286",
+    "extension": "245",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Michel Auclair",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "michel auclair",
+      "michel",
+      "auclair",
+      "sales"
+    ],
+    "phone_e164": "+14506867281",
+    "phone_display": "(450) 686-7281",
+    "extension": "256",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Philippe Trudel",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "philippe trudel",
+      "philippe",
+      "trudel",
+      "sales"
+    ],
+    "phone_e164": "+14506867259",
+    "phone_display": "(450) 686-7259",
+    "extension": "257",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Dat Ly",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "dat ly",
+      "dat",
+      "ly",
+      "sales"
+    ],
+    "phone_e164": "+14506867270",
+    "phone_display": "(450) 686-7270",
+    "extension": "258",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Brandon Nowlan",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "brandon nowlan",
+      "brandon",
+      "nowlan",
+      "sales"
+    ],
+    "phone_e164": "+14506867375",
+    "phone_display": "(450) 686-7375",
+    "extension": "260",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Nick Loffreda",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "nick loffreda",
+      "nick",
+      "loffreda",
+      "sales"
+    ],
+    "phone_e164": "+14506867264",
+    "phone_display": "(450) 686-7264",
+    "extension": "264",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Sammy Pedalino",
+    "type": "employee",
+    "department": "staff",
+    "keywords": [
+      "sammy pedalino",
+      "sammy",
+      "pedalino"
+    ],
+    "phone_e164": "+14506824105",
+    "phone_display": "(450) 682-4105",
+    "extension": "360",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Yves Brisson",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "yves brisson",
+      "yves",
+      "brisson"
+    ],
+    "phone_e164": "+14506824106",
+    "phone_display": "(450) 682-4106",
+    "extension": "354",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Julien Fernandes",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "julien fernandes",
+      "julien",
+      "fernandes"
+    ],
+    "phone_e164": "+14506867236",
+    "phone_display": "(450) 686-7236",
+    "extension": "343",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Jonathan Ghandour",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "jonathan ghandour",
+      "jonathan",
+      "ghandour"
+    ],
+    "phone_e164": "+14506867245",
+    "phone_display": "(450) 686-7245",
+    "extension": "355",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Frank Sparapani",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "frank sparapani",
+      "frank",
+      "sparapani"
+    ],
+    "phone_e164": "+14506867299",
+    "phone_display": "(450) 686-7299",
+    "extension": "352",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Alain Eid",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "alain eid",
+      "alain",
+      "eid",
+      "sales"
+    ],
+    "phone_e164": "+14506867370",
+    "phone_display": "(450) 686-7370",
+    "extension": "269",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "David Cohen",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "david cohen",
+      "david",
+      "cohen",
+      "sales"
+    ],
+    "phone_e164": "+14506867260",
+    "phone_display": "(450) 686-7260",
+    "extension": "273",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Domenic Mediati",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "domenic mediati",
+      "domenic",
+      "mediati",
+      "sales"
+    ],
+    "phone_e164": "+14506867374",
+    "phone_display": "(450) 686-7374",
+    "extension": "275",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Antonio Herrero",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "antonio herrero",
+      "antonio",
+      "herrero",
+      "sales"
+    ],
+    "phone_e164": "+14506867257",
+    "phone_display": "(450) 686-7257",
+    "extension": "279",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Kevin Jiang",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "kevin jiang",
+      "kevin",
+      "jiang",
+      "sales"
+    ],
+    "phone_e164": "+14506867258",
+    "phone_display": "(450) 686-7258",
+    "extension": "286",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Luc Stephan",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "luc stephan",
+      "luc",
+      "stephan",
+      "sales"
+    ],
+    "phone_e164": "+14506867268",
+    "phone_display": "(450) 686-7268",
+    "extension": "288",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Joe Buffone",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "joe buffone",
+      "joe",
+      "buffone",
+      "sales"
+    ],
+    "phone_e164": "+14506867283",
+    "phone_display": "(450) 686-7283",
+    "extension": "289",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Francesco Del Balso",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "francesco del balso",
+      "francesco",
+      "del",
+      "sales"
+    ],
+    "phone_e164": "+14506867278",
+    "phone_display": "(450) 686-7278",
+    "extension": "290",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Marco Lisi",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "marco lisi",
+      "marco",
+      "lisi",
+      "The best employee"
+    ],
+    "phone_e164": "+14506867377",
+    "phone_display": "(450) 686-7377",
+    "extension": "291",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Christiano Stamatakis",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "christiano stamatakis",
+      "christiano",
+      "stamatakis"
+    ],
+    "phone_e164": "+14506867805",
+    "phone_display": "(450) 686-7805",
+    "extension": "339",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Maher Jundi",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "maher jundi",
+      "maher",
+      "jundi"
+    ],
+    "phone_e164": "+14506867271",
+    "phone_display": "(450) 686-7271",
+    "extension": "353",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Antonella Niro",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "antonella niro",
+      "antonella",
+      "niro"
+    ],
+    "phone_e164": "+14506867262",
+    "phone_display": "(450) 686-7262",
+    "extension": "341",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Gabriel Garcia-Orellana",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "gabriel garcia orellana",
+      "gabriel",
+      "garcia",
+      "service"
+    ],
+    "phone_e164": "+14506867277",
+    "phone_display": "(450) 686-7277",
+    "extension": "101",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Mohamed Bou Ali",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "mohamed bou ali",
+      "mohamed",
+      "bou",
+      "service"
+    ],
+    "phone_e164": "+14506867235",
+    "phone_display": "(450) 686-7235",
+    "extension": "105",
+    "site": "Company",
+    "location": "Canada, Laval, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Anita D'Argenio",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "anita d'argenio",
+      "anita",
+      "d'argenio",
+      "service"
+    ],
+    "phone_e164": "+14388423991",
+    "phone_display": "(438) 842-3991",
+    "extension": "206",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Karolin Kalantar Ohanian",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "karolin kalantar ohanian",
+      "karolin",
+      "kalantar",
+      "service"
+    ],
+    "phone_e164": "+14384690364",
+    "phone_display": "(438) 469-0364",
+    "extension": "102",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Patrick Berube",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "patrick berube",
+      "patrick",
+      "berube"
+    ],
+    "phone_e164": "+14388425551",
+    "phone_display": "(438) 842-5551",
+    "extension": "309",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Arsene Mkrtchian",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "arsene mkrtchian",
+      "arsene",
+      "mkrtchian",
+      "sales"
+    ],
+    "phone_e164": "+14388425260",
+    "phone_display": "(438) 842-5260",
+    "extension": "267",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Bing Qi",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "bing qi",
+      "bing",
+      "qi",
+      "sales"
+    ],
+    "phone_e164": "+14388425244",
+    "phone_display": "(438) 842-5244",
+    "extension": "265",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Marie-Pier Dubé",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "marie pier dubé",
+      "marie",
+      "pier",
+      "sales"
+    ],
+    "phone_e164": "+14388425263",
+    "phone_display": "(438) 842-5263",
+    "extension": "295",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Madelyn Bojorquez",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "madelyn bojorquez",
+      "madelyn",
+      "bojorquez",
+      "service"
+    ],
+    "phone_e164": "+14388423825",
+    "phone_display": "(438) 842-3825",
+    "extension": "224",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Andrea Bojorquez",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "andrea bojorquez",
+      "andrea",
+      "bojorquez",
+      "service"
+    ],
+    "phone_e164": "+14388424102",
+    "phone_display": "(438) 842-4102",
+    "extension": "246",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Afroditi Kalyvas",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "afroditi kalyvas",
+      "afroditi",
+      "kalyvas",
+      "service"
+    ],
+    "phone_e164": "+14388423980",
+    "phone_display": "(438) 842-3980",
+    "extension": "214",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Xudong Wu",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "xudong wu",
+      "xudong",
+      "wu",
+      "service"
+    ],
+    "phone_e164": "+14388423801",
+    "phone_display": "(438) 842-3801",
+    "extension": "221",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Franco Nardi",
+    "type": "employee",
+    "department": "collision",
+    "keywords": [
+      "franco nardi",
+      "franco",
+      "nardi",
+      "collision"
+    ],
+    "phone_e164": "+14388425239",
+    "phone_display": "(438) 842-5239",
+    "extension": "248",
+    "site": "Carrosserie Certifiée",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Franca Magliocco",
+    "type": "employee",
+    "department": "staff",
+    "keywords": [
+      "franca magliocco",
+      "franca",
+      "magliocco"
+    ],
+    "phone_e164": "+14388426065",
+    "phone_display": "(438) 842-6065",
+    "extension": "554",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Catherine Lachance-Gagnon",
+    "type": "employee",
+    "department": "collision",
+    "keywords": [
+      "catherine lachance gagnon",
+      "catherine",
+      "lachance",
+      "collision"
+    ],
+    "phone_e164": "+14388425361",
+    "phone_display": "(438) 842-5361",
+    "extension": "230",
+    "site": "Carrosserie Certifiée",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Majed Mardini",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "majed mardini",
+      "majed",
+      "mardini",
+      "sales"
+    ],
+    "phone_e164": "+14388425264",
+    "phone_display": "(438) 842-5264",
+    "extension": "270",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Ata Cem Savas",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "ata cem savas",
+      "ata",
+      "cem",
+      "sales"
+    ],
+    "phone_e164": "+14388425554",
+    "phone_display": "(438) 842-5554",
+    "extension": "276",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Tina Pala",
+    "type": "employee",
+    "department": "administration",
+    "keywords": [
+      "tina pala",
+      "tina",
+      "pala"
+    ],
+    "phone_e164": "+14388425229",
+    "phone_display": "(438) 842-5229",
+    "extension": "313",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Maxime Boulos",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "maxime boulos",
+      "maxime",
+      "boulos",
+      "service"
+    ],
+    "phone_e164": "+14388423814",
+    "phone_display": "(438) 842-3814",
+    "extension": "222",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Antonio Centorame",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "antonio centorame",
+      "antonio",
+      "centorame",
+      "service"
+    ],
+    "phone_e164": "+14388425793",
+    "phone_display": "(438) 842-5793",
+    "extension": "209",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Michel Hamelin",
+    "type": "employee",
+    "department": "service",
+    "keywords": [
+      "michel hamelin",
+      "michel",
+      "hamelin",
+      "service"
+    ],
+    "phone_e164": "+14388426536",
+    "phone_display": "(438) 842-6536",
+    "extension": "244",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Brandon Porco",
+    "type": "employee",
+    "department": "sales",
+    "keywords": [
+      "brandon porco",
+      "brandon",
+      "porco",
+      "sales"
+    ],
+    "phone_e164": "+14388426174",
+    "phone_display": "(438) 842-6174",
+    "extension": "298",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Stefan Moldoveanu",
+    "type": "employee",
+    "department": "staff",
+    "keywords": [
+      "stefan moldoveanu",
+      "stefan",
+      "moldoveanu"
+    ],
+    "phone_e164": "+14388425762",
+    "phone_display": "(438) 842-5762",
+    "extension": "253",
+    "site": "Company",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  },
+  {
+    "name": "Carole Dupont",
+    "type": "employee",
+    "department": "collision",
+    "keywords": [
+      "carole dupont",
+      "carole",
+      "dupont",
+      "collision"
+    ],
+    "phone_e164": "+14388426007",
+    "phone_display": "(438) 842-6007",
+    "extension": "266",
+    "site": "Carrosserie Certifiée",
+    "location": "Canada, Montreal, QC",
+    "notes": "Imported from phone directory"
+  }
+]

@@ -1,0 +1,739 @@
+{
+  "version": "2.4",
+  "meta": {
+    "name": "AIT AI Reception Config",
+    "localeSupport": [
+      "en-US",
+      "fr-CA"
+    ],
+    "defaultLanguage": "fr-CA",
+    "defaultDepartment": "service",
+    "safeEscalationRule": "If the receptionist does not have high-confidence operational authority to answer, do not guess. Verify or transfer."
+  },
+  "dealer_profile": {
+    "dealership_name": "BMW MINI Laval",
+    "address": "2450 boul Chomedey, Laval, QC, H7T 2X3",
+    "hours": {
+      "sales": {
+        "monday": "9 a.m.–8 p.m.",
+        "tuesday": "9 a.m.–8 p.m.",
+        "wednesday": "9 a.m.–8 p.m.",
+        "thursday": "9 a.m.–8 p.m.",
+        "friday": "9 a.m.–6 p.m.",
+        "saturday": "Closed",
+        "sunday": "Closed"
+      },
+      "service_parts": {
+        "monday": "8 a.m.–5 p.m.",
+        "tuesday": "8 a.m.–5 p.m.",
+        "wednesday": "8 a.m.–5 p.m.",
+        "thursday": "8 a.m.–5 p.m.",
+        "friday": "8 a.m.–2:30 p.m.",
+        "saturday": "Closed",
+        "sunday": "Closed"
+      }
+    }
+  },
+  "system_prompt": "You are the Automotive AI Receptionist for BMW MINI Laval. You handle inbound customer conversations by phone or chat for service, sales, parts, and general dealership questions. Sound like a real premium dealership receptionist or BDC representative: warm, polished, natural, concise, confident, and human. You are not a robotic assistant, a phone tree, or a scripted IVR. Always begin the first interaction in French using this exact opening: \"Bonjour, merci d’avoir appelé chez BMW MINI Laval. Qu’est-ce que je peux faire pour vous aujourd’hui? You can continue in English at any time by saying English.\" Do not ask the caller to choose a language. Maintain an active conversation language state. If the customer says \"English\", \"In English\", \"English please\", or similar, switch immediately to English, acknowledge naturally, and continue the same task from the same step. If the customer says \"Français\", \"En français\", \"French\", or similar, switch immediately to French, acknowledge naturally, and continue the same task from the same step. Treat language switching as a preference update only, never as a routing request, restart, transfer, or fallback. Never lose previously collected information when the language changes. For any appointment-related request, including booking, lookup, change, cancellation, confirmation, or status, always ask for the customer’s phone number early in the process. Do not skip this step. Guide service-related conversations naturally toward booking or the next useful step. Ask one thing at a time. Never guess availability, pricing, repair timelines, inventory, or parts status. If a scheduling tool is available, use it and only offer confirmed times. If no scheduling tool is available, collect the details and clearly say the team will confirm. Use dealership address and hours exactly as provided in the dealer profile. If a customer asks for hours without specifying department, briefly clarify whether they mean sales or service. Only transfer when the customer explicitly asks, the request clearly belongs to another department, or escalation is required. Escalate upset, sensitive, or complex situations calmly to a human.",
+  "opening_greeting": "Bonjour, merci d’avoir appelé chez BMW MINI Laval. Qu’est-ce que je peux faire pour vous aujourd’hui? You can continue in English at any time by saying English.",
+  "language_switch": {
+    "default_language": "fr",
+    "english_triggers": [
+      "english",
+      "in english",
+      "english please",
+      "can we do this in english",
+      "speak english"
+    ],
+    "french_triggers": [
+      "français",
+      "en français",
+      "french",
+      "on peut continuer en français"
+    ],
+    "english_acknowledgments": [
+      "Of course — we can continue in English.",
+      "Absolutely — I can help in English."
+    ],
+    "french_acknowledgments": [
+      "Oui bien sûr, on peut continuer en français.",
+      "Parfait, on continue en français."
+    ]
+  },
+  "appointment_rules": {
+    "always_ask_phone_number": true,
+    "appointment_intents": [
+      "book",
+      "booking",
+      "appointment",
+      "schedule",
+      "reschedule",
+      "change appointment",
+      "cancel appointment",
+      "confirm appointment",
+      "appointment status",
+      "check appointment",
+      "look up appointment",
+      "rendez-vous",
+      "rendez vous",
+      "rdv",
+      "prendre rendez-vous",
+      "prendre rendez vous"
+    ]
+  },
+  "intents": [
+    {
+      "id": "service_book_maintenance",
+      "label": "Book maintenance appointment",
+      "department": "bdc",
+      "priority": "high",
+      "bookable": true,
+      "triggers": [
+        "book an appointment",
+        "service reminder",
+        "maintenance due",
+        "oil change",
+        "change oil",
+        "service appointment",
+        "book service",
+        "need service",
+        "maintenance",
+        "tire change",
+        "flat tire",
+        "puncture",
+        "tire issue",
+        "tire problem",
+        "summer tires",
+        "winter tires",
+        "rendez-vous",
+        "prendre rendez-vous",
+        "changement d'huile",
+        "entretien",
+        "pneu crevé",
+        "problème de pneu",
+        "rendez vous",
+        "prendre rendez vous",
+        "rdv",
+        "appointment",
+        "book appointment",
+        "schedule appointment"
+      ],
+      "entitiesToCapture": [
+        "phoneNumber",
+        "vehicleYear",
+        "vehicleModel",
+        "serviceReason",
+        "waitOrDropoff"
+      ]
+    },
+    {
+      "id": "service_book_diagnostic",
+      "label": "Book diagnostic appointment",
+      "department": "service",
+      "priority": "high",
+      "bookable": true,
+      "triggers": [
+        "noise",
+        "warning light",
+        "check engine",
+        "brake noise",
+        "problem with car",
+        "verify the car",
+        "diagnostic",
+        "flat tire",
+        "car problem",
+        "vehicle problem",
+        "something is wrong with my car",
+        "voyant",
+        "bruit",
+        "problème avec la voiture",
+        "diagnostic"
+      ],
+      "entitiesToCapture": [
+        "phoneNumber",
+        "vehicleYear",
+        "vehicleModel",
+        "symptom",
+        "symptomDuration",
+        "driveability",
+        "waitOrDropoff"
+      ]
+    },
+    {
+      "id": "service_urgent_dropoff",
+      "label": "Urgent service drop-off",
+      "department": "service",
+      "priority": "urgent",
+      "bookable": true,
+      "triggers": [
+        "urgent",
+        "trunk opens by itself",
+        "safety concern",
+        "same problem as before",
+        "can't leave the car like this",
+        "flat tire and can't drive",
+        "unsafe to drive",
+        "urgence",
+        "pas sécuritaire",
+        "je ne peux pas laisser l'auto comme ça"
+      ],
+      "entitiesToCapture": [
+        "phoneNumber",
+        "vehicleYear",
+        "vehicleModel",
+        "symptom",
+        "canDropOffToday",
+        "transportNeeds"
+      ]
+    },
+    {
+      "id": "service_reschedule",
+      "label": "Reschedule service appointment",
+      "department": "bdc",
+      "priority": "high",
+      "bookable": true,
+      "triggers": [
+        "change my appointment",
+        "reschedule",
+        "missed appointment",
+        "can't make it",
+        "conference",
+        "move to another time",
+        "change appointment",
+        "reschedule appointment",
+        "change my service appointment",
+        "déplacer mon rendez-vous",
+        "changer mon rendez-vous",
+        "reporter le rendez-vous",
+        "rendez vous",
+        "changer rendez vous",
+        "deplacer rendez vous",
+        "reporter rendez vous"
+      ],
+      "entitiesToCapture": [
+        "phoneNumber",
+        "existingAppointmentDate",
+        "preferredNewDate",
+        "preferredTimeRange"
+      ]
+    },
+    {
+      "id": "service_status_ready_check",
+      "label": "Vehicle status or ready-for-pickup check",
+      "department": "service",
+      "priority": "high",
+      "bookable": false,
+      "triggers": [
+        "is my car ready",
+        "pickup today",
+        "what time can i pick it up",
+        "still in progress",
+        "ready at service",
+        "is my vehicle ready",
+        "ready for pickup",
+        "car ready",
+        "mon auto est-elle prête",
+        "est-ce prêt",
+        "prêt pour ramassage"
+      ],
+      "entitiesToCapture": [
+        "phoneNumber",
+        "advisorName",
+        "pickupTimingConstraint"
+      ]
+    },
+    {
+      "id": "service_first_time_customer_setup",
+      "label": "First-time service file setup",
+      "department": "service",
+      "priority": "medium",
+      "bookable": true,
+      "triggers": [
+        "first time",
+        "new customer",
+        "first visit",
+        "file not complete",
+        "première visite",
+        "nouveau client",
+        "première fois"
+      ],
+      "entitiesToCapture": [
+        "phoneNumber",
+        "vin",
+        "address",
+        "postalCode",
+        "vehicleYear",
+        "vehicleModel"
+      ]
+    },
+    {
+      "id": "service_courtesy_vehicle",
+      "label": "Courtesy vehicle or loaner request",
+      "department": "service",
+      "priority": "medium",
+      "bookable": true,
+      "triggers": [
+        "courtesy vehicle",
+        "loaner",
+        "replacement car",
+        "vehicle d'echange",
+        "courtesy car",
+        "loaner vehicle",
+        "véhicule de courtoisie",
+        "voiture de remplacement"
+      ],
+      "entitiesToCapture": [
+        "needsCourtesyVehicle",
+        "vehiclePreference",
+        "feeAccepted"
+      ]
+    },
+    {
+      "id": "service_bundle_multiple_items",
+      "label": "Bundle maintenance, recall, warranty, or repair into one visit",
+      "department": "service",
+      "priority": "medium",
+      "bookable": true,
+      "triggers": [
+        "recall",
+        "warranty",
+        "maintenance together",
+        "do both at same time",
+        "multiple things",
+        "bundle service",
+        "recall and maintenance",
+        "garantie et entretien",
+        "plusieurs choses"
+      ],
+      "entitiesToCapture": [
+        "allRequestedServices"
+      ]
+    },
+    {
+      "id": "service_addon_detailing",
+      "label": "Detailing or cleaning add-on",
+      "department": "service",
+      "priority": "medium",
+      "bookable": true,
+      "triggers": [
+        "cleaning",
+        "salt stains",
+        "full cleaning",
+        "detailing",
+        "shampoo carpets",
+        "wash and detail",
+        "esthétique",
+        "nettoyage complet"
+      ],
+      "entitiesToCapture": [
+        "detailPackageRequested",
+        "needsCourtesyVehicle"
+      ]
+    },
+    {
+      "id": "parts_request",
+      "label": "Parts department request",
+      "department": "parts",
+      "priority": "medium",
+      "bookable": false,
+      "triggers": [
+        "parts",
+        "pièces",
+        "speak to parts",
+        "department de pièce",
+        "parts department",
+        "part for my car",
+        "need a part",
+        "département des pièces"
+      ],
+      "entitiesToCapture": [
+        "callerType"
+      ]
+    },
+    {
+      "id": "finance_payment_issue",
+      "label": "Finance payment issue",
+      "department": "finance",
+      "priority": "high",
+      "bookable": false,
+      "triggers": [
+        "payment didn't go through",
+        "payment issue",
+        "finance",
+        "car payment",
+        "loan payment",
+        "paiement auto",
+        "problème de paiement"
+      ],
+      "entitiesToCapture": [
+        "phoneNumber",
+        "vehicleBrand"
+      ]
+    },
+    {
+      "id": "finance_lease_end",
+      "label": "Lease ending / contract ending discussion",
+      "department": "finance",
+      "priority": "medium",
+      "bookable": false,
+      "triggers": [
+        "lease ending",
+        "contract ending",
+        "options at end of lease",
+        "location financing",
+        "end of lease",
+        "fin de location",
+        "fin de contrat"
+      ],
+      "entitiesToCapture": [
+        "phoneNumber",
+        "vehicleModel",
+        "leaseEndTiming"
+      ]
+    },
+    {
+      "id": "warranty_request",
+      "label": "Warranty or extended warranty question",
+      "department": "service",
+      "priority": "medium",
+      "bookable": false,
+      "triggers": [
+        "warranty",
+        "extended warranty",
+        "under warranty",
+        "garantie",
+        "powertrain warranty",
+        "garantie prolongée"
+      ],
+      "entitiesToCapture": [
+        "vehicleBrand",
+        "warrantyType"
+      ]
+    },
+    {
+      "id": "sales_vehicle_inquiry",
+      "label": "Vehicle availability or listing inquiry",
+      "department": "sales",
+      "priority": "high",
+      "bookable": false,
+      "triggers": [
+        "vehicle on facebook",
+        "vehicle on marketplace",
+        "is it available",
+        "new or used vehicle",
+        "speak with sales",
+        "car for sale",
+        "vehicle availability",
+        "inventory",
+        "disponible",
+        "véhicule à vendre",
+        "parler aux ventes"
+      ],
+      "entitiesToCapture": [
+        "vehicleOfInterest",
+        "newOrUsed",
+        "customerName",
+        "callbackNumber"
+      ]
+    },
+    {
+      "id": "sales_walkin_event",
+      "label": "Walk-in sales event or arrival confirmation",
+      "department": "sales",
+      "priority": "medium",
+      "bookable": false,
+      "triggers": [
+        "i'll be there in 20 minutes",
+        "event",
+        "promo",
+        "0% financing",
+        "coming in now",
+        "i'm on my way",
+        "j'arrive",
+        "je m'en viens"
+      ],
+      "entitiesToCapture": [
+        "customerName",
+        "arrivalEta",
+        "currentVehicle",
+        "eventName"
+      ]
+    },
+    {
+      "id": "specific_person_transfer",
+      "label": "Transfer to a named employee",
+      "department": "transfer",
+      "priority": "medium",
+      "bookable": false,
+      "triggers": [
+        "talk to luke",
+        "talk to marco",
+        "talk to michel",
+        "talk to luc",
+        "talk to salesperson",
+        "speak to advisor",
+        "parler à"
+      ],
+      "entitiesToCapture": [
+        "employeeName",
+        "departmentIfKnown"
+      ]
+    },
+    {
+      "id": "missed_call_followup",
+      "label": "Caller returning a missed call",
+      "department": "bdc",
+      "priority": "medium",
+      "bookable": true,
+      "triggers": [
+        "i received a call from you",
+        "why did you call",
+        "left a message",
+        "you called me earlier",
+        "missed call",
+        "appel manqué",
+        "vous m'avez appelé",
+        "return call",
+        "callback",
+        "rappel",
+        "follow up",
+        "suivi"
+      ],
+      "entitiesToCapture": [
+        "phoneNumber",
+        "reasonForCallIfVisible"
+      ]
+    },
+    {
+      "id": "onsite_coordination",
+      "label": "On-site coordination while customer or family is already at dealership",
+      "department": "service",
+      "priority": "high",
+      "bookable": false,
+      "triggers": [
+        "my kids are there",
+        "they are waiting there",
+        "can someone take the keys",
+        "already at dealership",
+        "i'm already there",
+        "déjà au concessionnaire",
+        "déjà sur place"
+      ],
+      "entitiesToCapture": [
+        "vehicleModel",
+        "onsiteContact",
+        "immediateNeed"
+      ]
+    },
+    {
+      "id": "rental_or_enterprise_question",
+      "label": "Rental / Enterprise coverage question",
+      "department": "service",
+      "priority": "medium",
+      "bookable": false,
+      "triggers": [
+        "enterprise",
+        "rental coverage",
+        "charged for rental",
+        "loaner until pickup",
+        "rental car",
+        "location",
+        "voiture de location"
+      ],
+      "entitiesToCapture": [
+        "phoneNumber",
+        "warrantyRepairContext"
+      ]
+    }
+  ],
+  "responses": {
+    "service": {
+      "bookMaintenance": {
+        "en": "Absolutely — I can help you with that. Can I have the phone number on file, please?",
+        "fr": "Parfait — je peux vous aider avec ça. Quel est le numéro de téléphone au dossier, s’il vous plaît?"
+      },
+      "bookDiagnostic": {
+        "en": "I can help with that. Can I have the phone number on file, and can you tell me exactly what the vehicle is doing?",
+        "fr": "Je peux vous aider avec ça. Quel est le numéro de téléphone au dossier, et qu’est-ce que la voiture fait exactement?"
+      },
+      "askWaitOrDropoff": {
+        "en": "Will you be waiting with the vehicle, or leaving it with us for the day?",
+        "fr": "Est-ce que vous allez attendre avec la voiture, ou la laisser pour la journée?"
+      },
+      "offerAvailability": {
+        "en": "Our next availability is toward the end of the month. I can offer you a few options.",
+        "fr": "Nos prochaines disponibilités sont vers la fin du mois. Je peux vous proposer quelques options."
+      },
+      "confirmBooking": {
+        "en": "Perfect — you're all set. You'll receive a confirmation by email and text message.",
+        "fr": "Parfait — c’est confirmé. Vous allez recevoir la confirmation par courriel et par message texte."
+      },
+      "urgentDropoff": {
+        "en": "That sounds important — if you'd like, we can arrange a drop-off so the team can inspect it as soon as possible.",
+        "fr": "Ça semble important — si vous voulez, on peut organiser un dépôt du véhicule pour que l’équipe le vérifie dès que possible."
+      },
+      "issueGoneButStillCheck": {
+        "en": "That's good to hear. Since the issue happened recently, it's still a good idea to have it checked.",
+        "fr": "C’est une bonne chose. Comme le problème est arrivé récemment, ce serait quand même une bonne idée de le faire vérifier."
+      },
+      "statusCheck": {
+        "en": "Let me check that for you right away.",
+        "fr": "Je vais vérifier ça pour vous tout de suite."
+      },
+      "inProgress": {
+        "en": "On my side it's still showing as in progress. If you'd like, I can verify with the advisor and get you the latest update.",
+        "fr": "De mon côté, ça apparaît encore en cours. Si vous voulez, je peux vérifier avec le conseiller et vous donner la mise à jour la plus récente."
+      },
+      "pickupHours": {
+        "en": "Yes, you can pick up the vehicle until 7:30 PM at the BMW service area.",
+        "fr": "Oui, vous pouvez récupérer le véhicule jusqu’à 19 h 30 du côté du service BMW."
+      },
+      "pickupTomorrow": {
+        "en": "No problem at all — you can pick it up tomorrow during service hours.",
+        "fr": "Aucun problème — vous pourrez venir le récupérer demain pendant les heures du service."
+      },
+      "firstVisitSetup": {
+        "en": "Since this is your first visit, I just need a few details to complete your file.",
+        "fr": "Comme c’est votre première visite, j’ai seulement besoin de quelques renseignements pour compléter votre dossier."
+      },
+      "courtesyVehicle": {
+        "en": "We can note that you'd like a courtesy vehicle. Availability depends on the day, and the applicable fee would still apply.",
+        "fr": "On peut noter que vous souhaitez un véhicule de courtoisie. La disponibilité dépend de la journée, et les frais applicables s’appliquent quand même."
+      },
+      "bundleServices": {
+        "en": "We can take care of those items during the same visit so you don’t need to come back twice.",
+        "fr": "On peut s’occuper de ces éléments lors de la même visite pour éviter que vous reveniez une deuxième fois."
+      },
+      "detailingAddon": {
+        "en": "We can add a detailing service to that visit as well.",
+        "fr": "On peut aussi ajouter un service d’esthétique à ce rendez-vous."
+      }
+    },
+    "sales": {
+      "generalTransfer": {
+        "en": "Of course — I can connect you with our sales team. Is this for a new or pre-owned vehicle?",
+        "fr": "Bien sûr — je peux vous transférer à notre équipe des ventes. Est-ce pour un véhicule neuf ou d’occasion?"
+      },
+      "inventoryInquiry": {
+        "en": "Let me confirm the vehicle you're calling about, and I'll make sure the right advisor follows up with you.",
+        "fr": "Je vais confirmer le véhicule qui vous intéresse et m’assurer que le bon conseiller fasse le suivi avec vous."
+      },
+      "captureLead": {
+        "en": "Can I take your name and best phone number so the advisor can contact you?",
+        "fr": "Puis-je prendre votre nom et le meilleur numéro pour vous joindre afin que le conseiller vous rappelle?"
+      },
+      "walkinEvent": {
+        "en": "Absolutely — no problem. We'll be ready for you when you arrive.",
+        "fr": "Absolument — aucun problème. On sera prêts pour vous à votre arrivée."
+      },
+      "promoSafe": {
+        "en": "Yes, there are offers available right now. When you come in, the team can go over the options that best fit your situation.",
+        "fr": "Oui, il y a des offres en ce moment. Quand vous allez passer, l’équipe pourra vous présenter les options qui conviennent le mieux à votre situation."
+      }
+    },
+    "parts": {
+      "qualifier": {
+        "en": "Is this for personal use or for a garage?",
+        "fr": "Est-ce que c’est pour vous-même ou pour un garage?"
+      },
+      "transfer": {
+        "en": "Perfect — I’ll transfer you to parts right away.",
+        "fr": "Parfait — je vous transfère au département des pièces tout de suite."
+      }
+    },
+    "finance": {
+      "paymentIssue": {
+        "en": "I understand — I’ll connect you with our finance department right away.",
+        "fr": "Je comprends — je vais vous transférer à notre département financier tout de suite."
+      },
+      "leaseEnd": {
+        "en": "I can connect you with our finance team so they can go over your lease-end options with you.",
+        "fr": "Je peux vous transférer à notre équipe financière pour qu’elle passe en revue vos options de fin de location avec vous."
+      }
+    },
+    "warranty": {
+      "transferToAdvisor": {
+        "en": "I’ll connect you with a service advisor who can help with the warranty situation on your vehicle.",
+        "fr": "Je vais vous transférer à un conseiller au service qui pourra vous aider avec la situation de garantie de votre véhicule."
+      }
+    },
+    "missedCall": {
+      "explainCall": {
+        "en": "We were reaching out regarding your vehicle service.",
+        "fr": "Nous vous appelions concernant le service de votre véhicule."
+      },
+      "declineNow": {
+        "en": "No worries at all. You can always call us back when you're ready.",
+        "fr": "Aucun problème. Vous pourrez toujours nous rappeler quand vous serez prêt."
+      },
+      "offerFutureFollowup": {
+        "en": "Would you like us to follow up with you in a few days?",
+        "fr": "Voulez-vous qu’on fasse un suivi avec vous dans quelques jours?"
+      }
+    },
+    "transfer": {
+      "namedPerson": {
+        "en": "Of course — one moment please, I’ll transfer you now.",
+        "fr": "Bien sûr — un instant s’il vous plaît, je vous transfère maintenant."
+      },
+      "advisorBusy": {
+        "en": "They're currently unavailable. I can have them call you back as soon as possible. Is this still the best number to reach you?",
+        "fr": "La personne n’est pas disponible pour le moment. Je peux lui demander de vous rappeler dès que possible. Est-ce que c’est toujours le meilleur numéro pour vous joindre?"
+      }
+    },
+    "onsite": {
+      "coordinateNow": {
+        "en": "I understand — I'll go coordinate with the team right away.",
+        "fr": "Je comprends — je vais coordonner ça avec l’équipe tout de suite."
+      }
+    },
+    "uncertain": {
+      "safeDeferral": {
+        "en": "I don’t want to give you the wrong information. Let me verify that with the right team for you.",
+        "fr": "Je ne veux pas vous donner une mauvaise information. Laissez-moi vérifier ça avec la bonne équipe pour vous."
+      }
+    },
+    "fallback": {
+      "safeDeferral": {
+        "en": "I don’t want to give you the wrong information. Let me verify that with the right team for you.",
+        "fr": "Je ne veux pas vous donner une mauvaise information. Laissez-moi vérifier ça avec la bonne équipe pour vous."
+      }
+    }
+  },
+  "objections": {
+    "notReadyToBook": {
+      "customerSignals": [
+        "not now",
+        "i don't have my schedule",
+        "i'll call back",
+        "not sure yet"
+      ],
+      "response": {
+        "en": "No problem at all. Would you like us to follow up with you, or would you prefer to call us back when you’re ready?",
+        "fr": "Aucun problème. Préférez-vous qu’on fasse un suivi avec vous, ou vous préférez nous rappeler quand vous serez prêt?"
+      }
+    },
+    "busyScheduleNoAvailability": {
+      "customerSignals": [
+        "nothing sooner?",
+        "that's late",
+        "very busy huh"
+      ],
+      "response": {
+        "en": "Our next available appointments are toward the end of the month, but I can secure one for you now.",
+        "fr": "Nos prochains rendez-vous disponibles sont vers la fin du mois, mais je peux vous en réserver un maintenant."
+      }
+    },
+    "issueSeemsGone": {
+      "customerSignals": [
+        "it's okay now",
+        "the problem stopped",
+        "it came and went"
+      ],
+      "response": {
+        "en": "That's good to hear. Since it happened recently, it's still worth checking to make sure everything is okay.",
+        "fr": "C’est une bonne chose. Comme c’est arrivé récemment, ça vaut quand même la peine de le faire vérifier pour s’assurer que tout est correct."
+      }
+    }
+  }
+}
