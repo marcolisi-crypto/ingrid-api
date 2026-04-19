@@ -62,17 +62,47 @@ public class NotesService
 
         db.SaveChanges();
 
+        var timelineEvent = InferTimelineEvent(note);
         _dmsCore.AddTimelineEvent(new CreateTimelineEventRequest
         {
             CustomerId = note.CustomerId,
             VehicleId = note.VehicleId,
-            EventType = "note.created",
-            Title = "Internal note added",
-            Body = note.Body,
-            SourceSystem = "ingrid.notes"
+            EventType = timelineEvent.EventType,
+            Title = timelineEvent.Title,
+            Body = timelineEvent.Body,
+            Department = timelineEvent.Department,
+            SourceSystem = "ingrid.notes",
+            SourceId = note.Id.ToString()
         });
 
         return MapNote(note);
+    }
+
+    private static (string EventType, string Title, string Body, string Department) InferTimelineEvent(DmsNoteEntity note)
+    {
+        var body = (note.Body ?? string.Empty).Trim();
+        var normalized = body.ToLowerInvariant();
+
+        if (normalized.StartsWith("[vehicle]"))
+        {
+            var cleanedBody = System.Text.RegularExpressions.Regex.Replace(body, @"^\[vehicle\]\s*", string.Empty, System.Text.RegularExpressions.RegexOptions.IgnoreCase).Trim();
+            var isMovement = cleanedBody.Contains("geo / movement update", StringComparison.OrdinalIgnoreCase)
+                || cleanedBody.Contains("current zone", StringComparison.OrdinalIgnoreCase);
+
+            return (
+                isMovement ? "vehicle_movement" : "vehicle_health",
+                isMovement ? "Vehicle movement" : "Vehicle health",
+                cleanedBody,
+                "service");
+        }
+
+        if (normalized.StartsWith("[archive]"))
+        {
+            var cleanedBody = System.Text.RegularExpressions.Regex.Replace(body, @"^\[archive\]\s*", string.Empty, System.Text.RegularExpressions.RegexOptions.IgnoreCase).Trim();
+            return ("vin_archive", "VIN archive", cleanedBody, "service");
+        }
+
+        return ("note.created", "Internal note added", body, string.IsNullOrWhiteSpace(note.NoteType) ? "internal" : note.NoteType.Trim());
     }
 
     private static NoteRecord MapNote(DmsNoteEntity note)
