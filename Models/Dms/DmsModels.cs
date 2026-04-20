@@ -306,6 +306,14 @@ public class AppointmentRecord
     public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
 }
 
+public class UpdateAppointmentRequest
+{
+    public string? Advisor { get; set; }
+    public string? Status { get; set; }
+    public string? Transport { get; set; }
+    public string? Notes { get; set; }
+}
+
 public class CreateRepairOrderRequest
 {
     public Guid? CustomerId { get; set; }

@@ -66,6 +66,39 @@ public class AppointmentsService
         return MapAppointment(appointment);
     }
 
+    public AppointmentRecord? UpdateAppointment(Guid appointmentId, UpdateAppointmentRequest request)
+    {
+        using var db = _dbContextFactory.CreateDbContext();
+        var appointment = db.Appointments.FirstOrDefault(x => x.Id == appointmentId);
+        if (appointment == null) return null;
+
+        appointment.Advisor = string.IsNullOrWhiteSpace(request.Advisor) ? appointment.Advisor : request.Advisor.Trim();
+        appointment.Status = string.IsNullOrWhiteSpace(request.Status) ? appointment.Status : request.Status.Trim();
+        appointment.Transport = string.IsNullOrWhiteSpace(request.Transport) ? appointment.Transport : request.Transport.Trim();
+        if (!string.IsNullOrWhiteSpace(request.Notes))
+        {
+            appointment.Notes = string.IsNullOrWhiteSpace(appointment.Notes)
+                ? request.Notes.Trim()
+                : $"{appointment.Notes}\n{request.Notes.Trim()}";
+        }
+        appointment.UpdatedAtUtc = DateTime.UtcNow;
+        db.SaveChanges();
+
+        _dmsCore.AddTimelineEvent(new CreateTimelineEventRequest
+        {
+            CustomerId = appointment.CustomerId,
+            VehicleId = appointment.VehicleId,
+            EventType = "appointment.updated",
+            Title = "Appointment updated",
+            Body = $"{appointment.Service} • Advisor {appointment.Advisor} • {appointment.Status}".Trim(),
+            Department = "service",
+            SourceSystem = "ingrid.appointments",
+            SourceId = appointment.Id.ToString()
+        });
+
+        return MapAppointment(appointment);
+    }
+
     public object GetAvailableSlots(string? date)
     {
         var day = string.IsNullOrWhiteSpace(date) ? DateTime.UtcNow.Date : DateTime.Parse(date).Date;

@@ -32,6 +32,13 @@ public class AppointmentsController : ControllerBase
         return Ok(_appointmentsService.CreateAppointment(request));
     }
 
+    [HttpPatch("/api/appointments/{appointmentId:guid}")]
+    public IActionResult UpdateAppointment(Guid appointmentId, [FromBody] UpdateAppointmentRequest request)
+    {
+        var appointment = _appointmentsService.UpdateAppointment(appointmentId, request);
+        return appointment == null ? NotFound(new { error = "Appointment not found." }) : Ok(appointment);
+    }
+
     [HttpGet("/api/appointments/slots")]
     public IActionResult GetAvailableSlots([FromQuery] string? date)
     {
