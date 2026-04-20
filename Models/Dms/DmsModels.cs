@@ -314,11 +314,46 @@ public class UpdateAppointmentRequest
     public string? Notes { get; set; }
 }
 
+public class CreateServiceReceptionRequest
+{
+    public Guid? CustomerId { get; set; }
+    public Guid? VehicleId { get; set; }
+    public Guid? AppointmentId { get; set; }
+    public string? Advisor { get; set; }
+    public string? Concern { get; set; }
+    public int? OdometerIn { get; set; }
+    public string? TransportOption { get; set; }
+    public string? Notes { get; set; }
+    public DateTime? PromiseAtUtc { get; set; }
+    public DateTime? CheckedInAtUtc { get; set; }
+}
+
+public class ServiceReceptionRecord
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid? CustomerId { get; set; }
+    public Guid? VehicleId { get; set; }
+    public Guid? AppointmentId { get; set; }
+    public Guid? RepairOrderId { get; set; }
+    public string ReceptionNumber { get; set; } = "";
+    public string Status { get; set; } = "open";
+    public string Advisor { get; set; } = "";
+    public string Concern { get; set; } = "";
+    public int? OdometerIn { get; set; }
+    public string TransportOption { get; set; } = "";
+    public string Notes { get; set; } = "";
+    public DateTime? PromiseAtUtc { get; set; }
+    public DateTime CheckedInAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
 public class CreateRepairOrderRequest
 {
     public Guid? CustomerId { get; set; }
     public Guid? VehicleId { get; set; }
     public Guid? AppointmentId { get; set; }
+    public Guid? ServiceReceptionId { get; set; }
     public string? Advisor { get; set; }
     public string? Complaint { get; set; }
     public int? OdometerIn { get; set; }
@@ -772,6 +807,7 @@ public class RepairOrderRecord
     public Guid? CustomerId { get; set; }
     public Guid? VehicleId { get; set; }
     public Guid? AppointmentId { get; set; }
+    public Guid? ServiceReceptionId { get; set; }
     public string RepairOrderNumber { get; set; } = "";
     public string Status { get; set; } = "open";
     public string Advisor { get; set; } = "";

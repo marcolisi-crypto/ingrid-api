@@ -50,24 +50,126 @@ public class ServiceOperationsService
         return entity == null ? null : MapRepairOrder(db, entity);
     }
 
-    public RepairOrderRecord OpenRepairOrder(CreateRepairOrderRequest request)
+    public IReadOnlyList<ServiceReceptionRecord> GetServiceReceptions(Guid? customerId = null, Guid? vehicleId = null, string? status = null)
     {
         using var db = _dbContextFactory.CreateDbContext();
+        var query = db.ServiceReceptions.AsQueryable();
 
-        var entity = new DmsRepairOrderEntity
+        if (customerId.HasValue)
+        {
+            query = query.Where(x => x.CustomerId == customerId.Value);
+        }
+
+        if (vehicleId.HasValue)
+        {
+            query = query.Where(x => x.VehicleId == vehicleId.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(status))
+        {
+            query = query.Where(x => x.Status == status.Trim());
+        }
+
+        return query
+            .OrderByDescending(x => x.CheckedInAtUtc)
+            .AsEnumerable()
+            .Select(MapServiceReception)
+            .ToList();
+    }
+
+    public ServiceReceptionRecord? GetServiceReception(Guid serviceReceptionId)
+    {
+        using var db = _dbContextFactory.CreateDbContext();
+        var entity = db.ServiceReceptions.FirstOrDefault(x => x.Id == serviceReceptionId);
+        return entity == null ? null : MapServiceReception(entity);
+    }
+
+    public ServiceReceptionRecord CreateServiceReception(CreateServiceReceptionRequest request)
+    {
+        using var db = _dbContextFactory.CreateDbContext();
+        var entity = new DmsServiceReceptionEntity
         {
             Id = Guid.NewGuid(),
             CustomerId = request.CustomerId,
             VehicleId = request.VehicleId,
             AppointmentId = request.AppointmentId,
-            RepairOrderNumber = GenerateRepairOrderNumber(),
+            ReceptionNumber = GenerateServiceReceptionNumber(),
             Status = "open",
             Advisor = (request.Advisor ?? "").Trim(),
-            Complaint = string.IsNullOrWhiteSpace(request.Complaint) ? "General inspection" : request.Complaint.Trim(),
+            Concern = string.IsNullOrWhiteSpace(request.Concern) ? "Customer concern pending advisor write-up" : request.Concern.Trim(),
             OdometerIn = request.OdometerIn,
             TransportOption = (request.TransportOption ?? "").Trim(),
             Notes = (request.Notes ?? "").Trim(),
             PromiseAtUtc = request.PromiseAtUtc,
+            CheckedInAtUtc = request.CheckedInAtUtc ?? DateTime.UtcNow,
+            CreatedAtUtc = DateTime.UtcNow,
+            UpdatedAtUtc = DateTime.UtcNow
+        };
+
+        db.ServiceReceptions.Add(entity);
+
+        if (request.AppointmentId.HasValue)
+        {
+            var appointment = db.Appointments.FirstOrDefault(x => x.Id == request.AppointmentId.Value);
+            if (appointment != null)
+            {
+                appointment.Status = "arrived";
+                appointment.UpdatedAtUtc = DateTime.UtcNow;
+            }
+        }
+
+        db.SaveChanges();
+
+        _dmsCore.AddTimelineEvent(new CreateTimelineEventRequest
+        {
+            CustomerId = entity.CustomerId,
+            VehicleId = entity.VehicleId,
+            EventType = "service_reception.created",
+            Title = $"Service reception created {entity.ReceptionNumber}",
+            Body = entity.Concern,
+            Department = "service",
+            SourceSystem = "ingrid.service",
+            SourceId = entity.Id.ToString()
+        });
+
+        return MapServiceReception(entity);
+    }
+
+    public RepairOrderRecord OpenRepairOrder(CreateRepairOrderRequest request)
+    {
+        using var db = _dbContextFactory.CreateDbContext();
+        DmsServiceReceptionEntity? serviceReception = null;
+
+        if (request.ServiceReceptionId.HasValue)
+        {
+            serviceReception = db.ServiceReceptions.FirstOrDefault(x => x.Id == request.ServiceReceptionId.Value);
+        }
+
+        var customerId = request.CustomerId ?? serviceReception?.CustomerId;
+        var vehicleId = request.VehicleId ?? serviceReception?.VehicleId;
+        var appointmentId = request.AppointmentId ?? serviceReception?.AppointmentId;
+        var advisor = !string.IsNullOrWhiteSpace(request.Advisor) ? request.Advisor.Trim() : (serviceReception?.Advisor ?? "").Trim();
+        var complaint = !string.IsNullOrWhiteSpace(request.Complaint) ? request.Complaint.Trim() : (serviceReception?.Concern ?? "General inspection");
+        var odometerIn = request.OdometerIn ?? serviceReception?.OdometerIn;
+        var transportOption = !string.IsNullOrWhiteSpace(request.TransportOption) ? request.TransportOption.Trim() : (serviceReception?.TransportOption ?? "").Trim();
+        var notes = !string.IsNullOrWhiteSpace(request.Notes) ? request.Notes.Trim() : (serviceReception?.Notes ?? "").Trim();
+        var promiseAtUtc = request.PromiseAtUtc ?? serviceReception?.PromiseAtUtc;
+
+        var entity = new DmsRepairOrderEntity
+        {
+            Id = Guid.NewGuid(),
+            CustomerId = customerId,
+            VehicleId = vehicleId,
+            AppointmentId = appointmentId,
+            ServiceReceptionId = request.ServiceReceptionId,
+            RepairOrderNumber = GenerateRepairOrderNumber(),
+            Status = "open",
+            Advisor = advisor,
+            Complaint = complaint,
+            OdometerIn = odometerIn,
+            TransportOption = transportOption,
+            Notes = notes,
+            PromiseAtUtc = promiseAtUtc,
             OpenedAtUtc = DateTime.UtcNow,
             CreatedAtUtc = DateTime.UtcNow,
             UpdatedAtUtc = DateTime.UtcNow
@@ -75,14 +177,21 @@ public class ServiceOperationsService
 
         db.RepairOrders.Add(entity);
 
-        if (request.AppointmentId.HasValue)
+        if (appointmentId.HasValue)
         {
-            var appointment = db.Appointments.FirstOrDefault(x => x.Id == request.AppointmentId.Value);
+            var appointment = db.Appointments.FirstOrDefault(x => x.Id == appointmentId.Value);
             if (appointment != null)
             {
                 appointment.Status = "checked_in";
                 appointment.UpdatedAtUtc = DateTime.UtcNow;
             }
+        }
+
+        if (serviceReception != null)
+        {
+            serviceReception.RepairOrderId = entity.Id;
+            serviceReception.Status = "converted_to_ro";
+            serviceReception.UpdatedAtUtc = DateTime.UtcNow;
         }
 
         db.SaveChanges();
@@ -498,6 +607,12 @@ public class ServiceOperationsService
         return $"RO-{timestamp[^8..]}";
     }
 
+    private static string GenerateServiceReceptionNumber()
+    {
+        var timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
+        return $"SR-{timestamp[^8..]}";
+    }
+
     private static void RecalculateRepairOrderTotals(IngridDmsDbContext db, DmsRepairOrderEntity entity)
     {
         var estimateLines = db.RepairOrderEstimateLines.Where(x => x.RepairOrderId == entity.Id).ToList();
@@ -572,6 +687,7 @@ public class ServiceOperationsService
             CustomerId = entity.CustomerId,
             VehicleId = entity.VehicleId,
             AppointmentId = entity.AppointmentId,
+            ServiceReceptionId = entity.ServiceReceptionId,
             RepairOrderNumber = entity.RepairOrderNumber,
             Status = entity.Status,
             Advisor = entity.Advisor,
@@ -601,6 +717,29 @@ public class ServiceOperationsService
             PaySplits = paySplits,
             TechnicianClockEvents = clockEvents,
             AccountingEntries = accountingEntries
+        };
+    }
+
+    private static ServiceReceptionRecord MapServiceReception(DmsServiceReceptionEntity entity)
+    {
+        return new ServiceReceptionRecord
+        {
+            Id = entity.Id,
+            CustomerId = entity.CustomerId,
+            VehicleId = entity.VehicleId,
+            AppointmentId = entity.AppointmentId,
+            RepairOrderId = entity.RepairOrderId,
+            ReceptionNumber = entity.ReceptionNumber,
+            Status = entity.Status,
+            Advisor = entity.Advisor,
+            Concern = entity.Concern,
+            OdometerIn = entity.OdometerIn,
+            TransportOption = entity.TransportOption,
+            Notes = entity.Notes,
+            PromiseAtUtc = entity.PromiseAtUtc,
+            CheckedInAtUtc = entity.CheckedInAtUtc,
+            CreatedAtUtc = entity.CreatedAtUtc,
+            UpdatedAtUtc = entity.UpdatedAtUtc
         };
     }
 

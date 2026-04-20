@@ -186,12 +186,33 @@ public class DmsAppointmentEntity
     public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
 }
 
+public class DmsServiceReceptionEntity
+{
+    public Guid Id { get; set; }
+    public Guid? CustomerId { get; set; }
+    public Guid? VehicleId { get; set; }
+    public Guid? AppointmentId { get; set; }
+    public Guid? RepairOrderId { get; set; }
+    public string ReceptionNumber { get; set; } = "";
+    public string Status { get; set; } = "open";
+    public string Advisor { get; set; } = "";
+    public string Concern { get; set; } = "";
+    public int? OdometerIn { get; set; }
+    public string TransportOption { get; set; } = "";
+    public string Notes { get; set; } = "";
+    public DateTime? PromiseAtUtc { get; set; }
+    public DateTime CheckedInAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
 public class DmsRepairOrderEntity
 {
     public Guid Id { get; set; }
     public Guid? CustomerId { get; set; }
     public Guid? VehicleId { get; set; }
     public Guid? AppointmentId { get; set; }
+    public Guid? ServiceReceptionId { get; set; }
     public string RepairOrderNumber { get; set; } = "";
     public string Status { get; set; } = "open";
     public string Advisor { get; set; } = "";

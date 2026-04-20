@@ -22,6 +22,7 @@ public class IngridDmsDbContext : DbContext
     public DbSet<DmsMediaAssetEntity> MediaAssets => Set<DmsMediaAssetEntity>();
     public DbSet<DmsTaskEntity> Tasks => Set<DmsTaskEntity>();
     public DbSet<DmsAppointmentEntity> Appointments => Set<DmsAppointmentEntity>();
+    public DbSet<DmsServiceReceptionEntity> ServiceReceptions => Set<DmsServiceReceptionEntity>();
     public DbSet<DmsRepairOrderEntity> RepairOrders => Set<DmsRepairOrderEntity>();
     public DbSet<DmsRepairOrderEstimateLineEntity> RepairOrderEstimateLines => Set<DmsRepairOrderEstimateLineEntity>();
     public DbSet<DmsRepairOrderPartLineEntity> RepairOrderPartLines => Set<DmsRepairOrderPartLineEntity>();
@@ -189,6 +190,22 @@ public class IngridDmsDbContext : DbContext
             entity.HasIndex(x => x.ScheduledStartUtc);
         });
 
+        modelBuilder.Entity<DmsServiceReceptionEntity>(entity =>
+        {
+            entity.ToTable("service_receptions");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.ReceptionNumber).HasMaxLength(50);
+            entity.Property(x => x.Status).HasMaxLength(50);
+            entity.Property(x => x.Advisor).HasMaxLength(100);
+            entity.Property(x => x.TransportOption).HasMaxLength(50);
+            entity.HasIndex(x => x.ReceptionNumber).IsUnique();
+            entity.HasIndex(x => x.CustomerId);
+            entity.HasIndex(x => x.VehicleId);
+            entity.HasIndex(x => x.AppointmentId);
+            entity.HasIndex(x => x.RepairOrderId);
+            entity.HasIndex(x => x.Status);
+        });
+
         modelBuilder.Entity<DmsRepairOrderEntity>(entity =>
         {
             entity.ToTable("repair_orders");
@@ -209,6 +226,7 @@ public class IngridDmsDbContext : DbContext
             entity.HasIndex(x => x.RepairOrderNumber).IsUnique();
             entity.HasIndex(x => x.CustomerId);
             entity.HasIndex(x => x.VehicleId);
+            entity.HasIndex(x => x.ServiceReceptionId);
             entity.HasIndex(x => x.Status);
         });
 

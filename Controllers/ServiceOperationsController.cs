@@ -28,6 +28,25 @@ public class ServiceOperationsController : ControllerBase
         return repairOrder == null ? NotFound(new { error = "Repair order not found." }) : Ok(repairOrder);
     }
 
+    [HttpGet("receptions")]
+    public IActionResult GetServiceReceptions([FromQuery] Guid? customerId, [FromQuery] Guid? vehicleId, [FromQuery] string? status)
+    {
+        return Ok(new { serviceReceptions = _serviceOperations.GetServiceReceptions(customerId, vehicleId, status) });
+    }
+
+    [HttpGet("receptions/{serviceReceptionId:guid}")]
+    public IActionResult GetServiceReception(Guid serviceReceptionId)
+    {
+        var serviceReception = _serviceOperations.GetServiceReception(serviceReceptionId);
+        return serviceReception == null ? NotFound(new { error = "Service reception not found." }) : Ok(serviceReception);
+    }
+
+    [HttpPost("receptions")]
+    public IActionResult CreateServiceReception([FromBody] CreateServiceReceptionRequest request)
+    {
+        return Ok(_serviceOperations.CreateServiceReception(request));
+    }
+
     [HttpPost("repair-orders/open")]
     public IActionResult OpenRepairOrder([FromBody] CreateRepairOrderRequest request)
     {
