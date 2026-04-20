@@ -19,6 +19,7 @@ public class IngridDmsDbContext : DbContext
     public DbSet<DmsCallEntity> Calls => Set<DmsCallEntity>();
     public DbSet<DmsTimelineEventEntity> TimelineEvents => Set<DmsTimelineEventEntity>();
     public DbSet<DmsNoteEntity> Notes => Set<DmsNoteEntity>();
+    public DbSet<DmsMediaAssetEntity> MediaAssets => Set<DmsMediaAssetEntity>();
     public DbSet<DmsTaskEntity> Tasks => Set<DmsTaskEntity>();
     public DbSet<DmsAppointmentEntity> Appointments => Set<DmsAppointmentEntity>();
     public DbSet<DmsRepairOrderEntity> RepairOrders => Set<DmsRepairOrderEntity>();
@@ -144,6 +145,24 @@ public class IngridDmsDbContext : DbContext
             entity.Property(x => x.CallSid).HasMaxLength(100);
             entity.Property(x => x.NoteType).HasMaxLength(50);
             entity.HasIndex(x => x.CallSid);
+        });
+
+        modelBuilder.Entity<DmsMediaAssetEntity>(entity =>
+        {
+            entity.ToTable("media_assets");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.ContextType).HasMaxLength(50);
+            entity.Property(x => x.MediaType).HasMaxLength(20);
+            entity.Property(x => x.StorageUrl).HasMaxLength(2000);
+            entity.Property(x => x.ThumbnailUrl).HasMaxLength(2000);
+            entity.Property(x => x.FileName).HasMaxLength(255);
+            entity.Property(x => x.CapturedBy).HasMaxLength(100);
+            entity.Property(x => x.Visibility).HasMaxLength(50);
+            entity.HasIndex(x => x.CustomerId);
+            entity.HasIndex(x => x.VehicleId);
+            entity.HasIndex(x => x.RepairOrderId);
+            entity.HasIndex(x => x.NoteId);
+            entity.HasIndex(x => x.CapturedAtUtc);
         });
 
         modelBuilder.Entity<DmsTaskEntity>(entity =>

@@ -125,6 +125,26 @@ public class DmsNoteEntity
     public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
 }
 
+public class DmsMediaAssetEntity
+{
+    public Guid Id { get; set; }
+    public Guid? CustomerId { get; set; }
+    public Guid? VehicleId { get; set; }
+    public Guid? RepairOrderId { get; set; }
+    public Guid? NoteId { get; set; }
+    public string ContextType { get; set; } = "vin_archive";
+    public string MediaType { get; set; } = "photo";
+    public string StorageUrl { get; set; } = "";
+    public string ThumbnailUrl { get; set; } = "";
+    public string FileName { get; set; } = "";
+    public string Caption { get; set; } = "";
+    public string CapturedBy { get; set; } = "";
+    public string Visibility { get; set; } = "internal";
+    public DateTime CapturedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
 public class DmsTaskEntity
 {
     public Guid Id { get; set; }

@@ -125,6 +125,31 @@ create table if not exists notes (
 
 create index if not exists idx_notes_call_sid on notes(call_sid);
 
+create table if not exists media_assets (
+  id uuid primary key default gen_random_uuid(),
+  customer_id uuid references customers(id),
+  vehicle_id uuid references vehicles(id),
+  repair_order_id uuid references repair_orders(id),
+  note_id uuid references notes(id),
+  context_type text not null default 'vin_archive',
+  media_type text not null default 'photo',
+  storage_url text not null default '',
+  thumbnail_url text not null default '',
+  file_name text not null default '',
+  caption text not null default '',
+  captured_by text not null default '',
+  visibility text not null default 'internal',
+  captured_at_utc timestamptz not null default now(),
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_media_assets_customer_id on media_assets(customer_id);
+create index if not exists idx_media_assets_vehicle_id on media_assets(vehicle_id);
+create index if not exists idx_media_assets_repair_order_id on media_assets(repair_order_id);
+create index if not exists idx_media_assets_note_id on media_assets(note_id);
+create index if not exists idx_media_assets_captured_at_utc on media_assets(captured_at_utc desc);
+
 create table if not exists tasks (
   id uuid primary key default gen_random_uuid(),
   customer_id uuid references customers(id),
