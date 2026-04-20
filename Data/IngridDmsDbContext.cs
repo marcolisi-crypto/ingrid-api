@@ -39,6 +39,7 @@ public class IngridDmsDbContext : DbContext
     public DbSet<DmsGlEntryEntity> GlEntries => Set<DmsGlEntryEntity>();
     public DbSet<DmsAccountsPayableBillEntity> AccountsPayableBills => Set<DmsAccountsPayableBillEntity>();
     public DbSet<DmsAccountsReceivableInvoiceEntity> AccountsReceivableInvoices => Set<DmsAccountsReceivableInvoiceEntity>();
+    public DbSet<DmsWorkInProgressEntity> WorkInProgress => Set<DmsWorkInProgressEntity>();
     public DbSet<DmsBankReconciliationEntity> BankReconciliations => Set<DmsBankReconciliationEntity>();
     public DbSet<DmsAccountingClosePeriodEntity> AccountingClosePeriods => Set<DmsAccountingClosePeriodEntity>();
 
@@ -308,9 +309,12 @@ public class IngridDmsDbContext : DbContext
             entity.HasKey(x => x.Id);
             entity.Property(x => x.ClaimNumber).HasMaxLength(100);
             entity.Property(x => x.ClaimType).HasMaxLength(50);
+            entity.Property(x => x.Manufacturer).HasMaxLength(100);
             entity.Property(x => x.OpCode).HasMaxLength(50);
             entity.Property(x => x.FailureCode).HasMaxLength(50);
             entity.Property(x => x.ClaimAmount).HasPrecision(12, 2);
+            entity.Property(x => x.ApprovedAmount).HasPrecision(12, 2);
+            entity.Property(x => x.ReceivableStatus).HasMaxLength(50);
             entity.Property(x => x.Status).HasMaxLength(50);
             entity.HasIndex(x => x.RepairOrderId);
             entity.HasIndex(x => x.ClaimNumber);
@@ -378,6 +382,10 @@ public class IngridDmsDbContext : DbContext
             entity.Property(x => x.Description).HasMaxLength(200);
             entity.Property(x => x.AccountType).HasMaxLength(50);
             entity.Property(x => x.Department).HasMaxLength(50);
+            entity.Property(x => x.ProfitCentre).HasMaxLength(50);
+            entity.Property(x => x.Brand).HasMaxLength(50);
+            entity.Property(x => x.StatementSection).HasMaxLength(100);
+            entity.Property(x => x.StatementSubsection).HasMaxLength(100);
             entity.Property(x => x.OemStatementGroup).HasMaxLength(100);
             entity.HasIndex(x => x.AccountNumber).IsUnique();
         });
@@ -398,8 +406,14 @@ public class IngridDmsDbContext : DbContext
             entity.ToTable("accounts_payable_bills");
             entity.HasKey(x => x.Id);
             entity.Property(x => x.VendorName).HasMaxLength(200);
+            entity.Property(x => x.VendorAccount).HasMaxLength(100);
             entity.Property(x => x.InvoiceNumber).HasMaxLength(100);
             entity.Property(x => x.Amount).HasPrecision(12, 2);
+            entity.Property(x => x.BalanceDue).HasPrecision(12, 2);
+            entity.Property(x => x.PayableType).HasMaxLength(50);
+            entity.Property(x => x.ProfitCentre).HasMaxLength(50);
+            entity.Property(x => x.Brand).HasMaxLength(50);
+            entity.Property(x => x.AgingBucket).HasMaxLength(50);
             entity.Property(x => x.Status).HasMaxLength(50);
             entity.HasIndex(x => x.RepairOrderId);
         });
@@ -411,9 +425,27 @@ public class IngridDmsDbContext : DbContext
             entity.Property(x => x.InvoiceNumber).HasMaxLength(100);
             entity.Property(x => x.Amount).HasPrecision(12, 2);
             entity.Property(x => x.BalanceDue).HasPrecision(12, 2);
+            entity.Property(x => x.ReceivableType).HasMaxLength(50);
+            entity.Property(x => x.ProfitCentre).HasMaxLength(50);
+            entity.Property(x => x.Brand).HasMaxLength(50);
+            entity.Property(x => x.AgingBucket).HasMaxLength(50);
             entity.Property(x => x.Status).HasMaxLength(50);
             entity.HasIndex(x => x.RepairOrderId);
             entity.HasIndex(x => x.CustomerId);
+        });
+
+        modelBuilder.Entity<DmsWorkInProgressEntity>(entity =>
+        {
+            entity.ToTable("work_in_progress");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.ProfitCentre).HasMaxLength(50);
+            entity.Property(x => x.PayType).HasMaxLength(50);
+            entity.Property(x => x.LabourAmount).HasPrecision(12, 2);
+            entity.Property(x => x.PartsAmount).HasPrecision(12, 2);
+            entity.Property(x => x.SubletAmount).HasPrecision(12, 2);
+            entity.Property(x => x.Status).HasMaxLength(50);
+            entity.HasIndex(x => x.RepairOrderId);
+            entity.HasIndex(x => x.ProfitCentre);
         });
 
         modelBuilder.Entity<DmsBankReconciliationEntity>(entity =>

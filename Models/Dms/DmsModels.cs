@@ -436,11 +436,16 @@ public class CreateWarrantyClaimRequest
 {
     public string? ClaimNumber { get; set; }
     public string? ClaimType { get; set; }
+    public string? Manufacturer { get; set; }
     public string? OpCode { get; set; }
     public string? FailureCode { get; set; }
     public string? Cause { get; set; }
     public string? Correction { get; set; }
     public decimal? ClaimAmount { get; set; }
+    public decimal? ApprovedAmount { get; set; }
+    public string? ReceivableStatus { get; set; }
+    public DateTime? ApprovedAtUtc { get; set; }
+    public DateTime? PostedAtUtc { get; set; }
     public string? Status { get; set; }
     public DateTime? SubmittedAtUtc { get; set; }
 }
@@ -502,7 +507,12 @@ public class CreateGlAccountRequest
     public string? Description { get; set; }
     public string? AccountType { get; set; }
     public string? Department { get; set; }
+    public string? ProfitCentre { get; set; }
+    public string? Brand { get; set; }
+    public string? StatementSection { get; set; }
+    public string? StatementSubsection { get; set; }
     public string? OemStatementGroup { get; set; }
+    public bool? IsControlAccount { get; set; }
     public bool? IsActive { get; set; }
 }
 
@@ -521,8 +531,15 @@ public class CreateAccountsPayableBillRequest
 {
     public Guid? RepairOrderId { get; set; }
     public string? VendorName { get; set; }
+    public string? VendorAccount { get; set; }
     public string? InvoiceNumber { get; set; }
     public decimal? Amount { get; set; }
+    public decimal? BalanceDue { get; set; }
+    public string? PayableType { get; set; }
+    public string? ProfitCentre { get; set; }
+    public string? Brand { get; set; }
+    public string? AgingBucket { get; set; }
+    public DateTime? PostedAtUtc { get; set; }
     public string? Status { get; set; }
     public DateTime? DueAtUtc { get; set; }
 }
@@ -534,8 +551,25 @@ public class CreateAccountsReceivableInvoiceRequest
     public string? InvoiceNumber { get; set; }
     public decimal? Amount { get; set; }
     public decimal? BalanceDue { get; set; }
+    public string? ReceivableType { get; set; }
+    public string? ProfitCentre { get; set; }
+    public string? Brand { get; set; }
+    public string? AgingBucket { get; set; }
+    public DateTime? PostedAtUtc { get; set; }
     public string? Status { get; set; }
     public DateTime? DueAtUtc { get; set; }
+}
+
+public class CreateWorkInProgressRequest
+{
+    public Guid RepairOrderId { get; set; }
+    public string? ProfitCentre { get; set; }
+    public string? PayType { get; set; }
+    public decimal? LabourAmount { get; set; }
+    public decimal? PartsAmount { get; set; }
+    public decimal? SubletAmount { get; set; }
+    public string? Status { get; set; }
+    public DateTime? PostedAtUtc { get; set; }
 }
 
 public class CreateBankReconciliationRequest
@@ -649,11 +683,16 @@ public class WarrantyClaimRecord
     public Guid RepairOrderId { get; set; }
     public string ClaimNumber { get; set; } = "";
     public string ClaimType { get; set; } = "warranty";
+    public string Manufacturer { get; set; } = "";
     public string OpCode { get; set; } = "";
     public string FailureCode { get; set; } = "";
     public string Cause { get; set; } = "";
     public string Correction { get; set; } = "";
     public decimal ClaimAmount { get; set; }
+    public decimal ApprovedAmount { get; set; }
+    public string ReceivableStatus { get; set; } = "unsubmitted";
+    public DateTime? ApprovedAtUtc { get; set; }
+    public DateTime? PostedAtUtc { get; set; }
     public string Status { get; set; } = "draft";
     public DateTime SubmittedAtUtc { get; set; } = DateTime.UtcNow;
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
@@ -731,7 +770,12 @@ public class GlAccountRecord
     public string Description { get; set; } = "";
     public string AccountType { get; set; } = "asset";
     public string Department { get; set; } = "";
+    public string ProfitCentre { get; set; } = "";
+    public string Brand { get; set; } = "";
+    public string StatementSection { get; set; } = "";
+    public string StatementSubsection { get; set; } = "";
     public string OemStatementGroup { get; set; } = "";
+    public bool IsControlAccount { get; set; }
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
@@ -755,8 +799,15 @@ public class AccountsPayableBillRecord
     public Guid Id { get; set; } = Guid.NewGuid();
     public Guid? RepairOrderId { get; set; }
     public string VendorName { get; set; } = "";
+    public string VendorAccount { get; set; } = "";
     public string InvoiceNumber { get; set; } = "";
     public decimal Amount { get; set; }
+    public decimal BalanceDue { get; set; }
+    public string PayableType { get; set; } = "other_supplier";
+    public string ProfitCentre { get; set; } = "";
+    public string Brand { get; set; } = "";
+    public string AgingBucket { get; set; } = "current";
+    public DateTime? PostedAtUtc { get; set; }
     public string Status { get; set; } = "open";
     public DateTime? DueAtUtc { get; set; }
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
@@ -771,8 +822,28 @@ public class AccountsReceivableInvoiceRecord
     public string InvoiceNumber { get; set; } = "";
     public decimal Amount { get; set; }
     public decimal BalanceDue { get; set; }
+    public string ReceivableType { get; set; } = "aftersales";
+    public string ProfitCentre { get; set; } = "";
+    public string Brand { get; set; } = "";
+    public string AgingBucket { get; set; } = "current";
+    public DateTime? PostedAtUtc { get; set; }
     public string Status { get; set; } = "open";
     public DateTime? DueAtUtc { get; set; }
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class WorkInProgressRecord
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid RepairOrderId { get; set; }
+    public string ProfitCentre { get; set; } = "service";
+    public string PayType { get; set; } = "customer";
+    public decimal LabourAmount { get; set; }
+    public decimal PartsAmount { get; set; }
+    public decimal SubletAmount { get; set; }
+    public string Status { get; set; } = "open";
+    public DateTime? PostedAtUtc { get; set; }
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
 }
@@ -837,4 +908,5 @@ public class RepairOrderRecord
     public IReadOnlyList<MultiPointInspectionRecord> MultiPointInspections { get; set; } = Array.Empty<MultiPointInspectionRecord>();
     public IReadOnlyList<WarrantyClaimRecord> WarrantyClaims { get; set; } = Array.Empty<WarrantyClaimRecord>();
     public IReadOnlyList<RepairOrderPaySplitRecord> PaySplits { get; set; } = Array.Empty<RepairOrderPaySplitRecord>();
+    public IReadOnlyList<WorkInProgressRecord> WorkInProgress { get; set; } = Array.Empty<WorkInProgressRecord>();
 }

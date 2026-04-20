@@ -86,4 +86,16 @@ public class AccountingOperationsController : ControllerBase
     {
         return Ok(_accountingOperations.CreateClosePeriod(request));
     }
+
+    [HttpGet("wip")]
+    public IActionResult GetWorkInProgress([FromQuery] Guid? repairOrderId)
+    {
+        return Ok(new { items = _accountingOperations.GetWorkInProgress(repairOrderId) });
+    }
+
+    [HttpPost("wip")]
+    public IActionResult CreateWorkInProgress([FromBody] CreateWorkInProgressRequest request)
+    {
+        return Ok(_accountingOperations.CreateWorkInProgress(request));
+    }
 }

@@ -319,11 +319,16 @@ create table if not exists warranty_claims (
   repair_order_id uuid not null references repair_orders(id) on delete cascade,
   claim_number text not null default '',
   claim_type text not null default 'warranty',
+  manufacturer text not null default '',
   op_code text not null default '',
   failure_code text not null default '',
   cause text not null default '',
   correction text not null default '',
   claim_amount numeric(12,2) not null default 0,
+  approved_amount numeric(12,2) not null default 0,
+  receivable_status text not null default 'unsubmitted',
+  approved_at_utc timestamptz,
+  posted_at_utc timestamptz,
   status text not null default 'draft',
   submitted_at_utc timestamptz not null default now(),
   created_at_utc timestamptz not null default now(),
@@ -407,7 +412,12 @@ create table if not exists gl_accounts (
   description text not null default '',
   account_type text not null default 'asset',
   department text not null default '',
+  profit_centre text not null default '',
+  brand text not null default '',
+  statement_section text not null default '',
+  statement_subsection text not null default '',
   oem_statement_group text not null default '',
+  is_control_account boolean not null default false,
   is_active boolean not null default true,
   created_at_utc timestamptz not null default now(),
   updated_at_utc timestamptz not null default now()
@@ -432,8 +442,15 @@ create table if not exists accounts_payable_bills (
   id uuid primary key default gen_random_uuid(),
   repair_order_id uuid references repair_orders(id),
   vendor_name text not null default '',
+  vendor_account text not null default '',
   invoice_number text not null default '',
   amount numeric(12,2) not null default 0,
+  balance_due numeric(12,2) not null default 0,
+  payable_type text not null default 'other_supplier',
+  profit_centre text not null default '',
+  brand text not null default '',
+  aging_bucket text not null default 'current',
+  posted_at_utc timestamptz,
   status text not null default 'open',
   due_at_utc timestamptz,
   created_at_utc timestamptz not null default now(),
@@ -449,6 +466,11 @@ create table if not exists accounts_receivable_invoices (
   invoice_number text not null default '',
   amount numeric(12,2) not null default 0,
   balance_due numeric(12,2) not null default 0,
+  receivable_type text not null default 'aftersales',
+  profit_centre text not null default '',
+  brand text not null default '',
+  aging_bucket text not null default 'current',
+  posted_at_utc timestamptz,
   status text not null default 'open',
   due_at_utc timestamptz,
   created_at_utc timestamptz not null default now(),
@@ -457,6 +479,23 @@ create table if not exists accounts_receivable_invoices (
 
 create index if not exists idx_accounts_receivable_invoices_repair_order_id on accounts_receivable_invoices(repair_order_id);
 create index if not exists idx_accounts_receivable_invoices_customer_id on accounts_receivable_invoices(customer_id);
+
+create table if not exists work_in_progress (
+  id uuid primary key default gen_random_uuid(),
+  repair_order_id uuid not null references repair_orders(id),
+  profit_centre text not null default 'service',
+  pay_type text not null default 'customer',
+  labour_amount numeric(12,2) not null default 0,
+  parts_amount numeric(12,2) not null default 0,
+  sublet_amount numeric(12,2) not null default 0,
+  status text not null default 'open',
+  posted_at_utc timestamptz,
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_work_in_progress_repair_order_id on work_in_progress(repair_order_id);
+create index if not exists idx_work_in_progress_profit_centre on work_in_progress(profit_centre);
 
 create table if not exists bank_reconciliations (
   id uuid primary key default gen_random_uuid(),

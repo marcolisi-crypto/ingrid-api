@@ -64,6 +64,18 @@ public class AccountingOperationsService
         return db.AccountingClosePeriods.OrderByDescending(x => x.PeriodEndUtc).AsEnumerable().Select(MapClosePeriod).ToList();
     }
 
+    public IReadOnlyList<WorkInProgressRecord> GetWorkInProgress(Guid? repairOrderId = null)
+    {
+        using var db = _dbContextFactory.CreateDbContext();
+        var query = db.WorkInProgress.AsQueryable();
+        if (repairOrderId.HasValue)
+        {
+            query = query.Where(x => x.RepairOrderId == repairOrderId.Value);
+        }
+
+        return query.OrderByDescending(x => x.UpdatedAtUtc).AsEnumerable().Select(MapWorkInProgress).ToList();
+    }
+
     public GlAccountRecord CreateGlAccount(CreateGlAccountRequest request)
     {
         using var db = _dbContextFactory.CreateDbContext();
@@ -74,7 +86,12 @@ public class AccountingOperationsService
             Description = string.IsNullOrWhiteSpace(request.Description) ? "General ledger account" : request.Description.Trim(),
             AccountType = string.IsNullOrWhiteSpace(request.AccountType) ? "asset" : request.AccountType.Trim().ToLowerInvariant(),
             Department = (request.Department ?? "").Trim().ToLowerInvariant(),
+            ProfitCentre = (request.ProfitCentre ?? request.Department ?? "").Trim().ToLowerInvariant(),
+            Brand = (request.Brand ?? "").Trim().ToUpperInvariant(),
+            StatementSection = (request.StatementSection ?? "").Trim().ToLowerInvariant(),
+            StatementSubsection = (request.StatementSubsection ?? "").Trim().ToLowerInvariant(),
             OemStatementGroup = (request.OemStatementGroup ?? "").Trim(),
+            IsControlAccount = request.IsControlAccount ?? false,
             IsActive = request.IsActive ?? true,
             CreatedAtUtc = DateTime.UtcNow,
             UpdatedAtUtc = DateTime.UtcNow
@@ -116,8 +133,15 @@ public class AccountingOperationsService
             Id = Guid.NewGuid(),
             RepairOrderId = request.RepairOrderId,
             VendorName = string.IsNullOrWhiteSpace(request.VendorName) ? "Vendor" : request.VendorName.Trim(),
+            VendorAccount = (request.VendorAccount ?? "").Trim(),
             InvoiceNumber = string.IsNullOrWhiteSpace(request.InvoiceNumber) ? $"AP-{DateTime.UtcNow:HHmmss}" : request.InvoiceNumber.Trim().ToUpperInvariant(),
             Amount = request.Amount.GetValueOrDefault(),
+            BalanceDue = request.BalanceDue ?? request.Amount.GetValueOrDefault(),
+            PayableType = string.IsNullOrWhiteSpace(request.PayableType) ? "other_supplier" : request.PayableType.Trim().ToLowerInvariant(),
+            ProfitCentre = (request.ProfitCentre ?? "").Trim().ToLowerInvariant(),
+            Brand = (request.Brand ?? "").Trim().ToUpperInvariant(),
+            AgingBucket = string.IsNullOrWhiteSpace(request.AgingBucket) ? "current" : request.AgingBucket.Trim().ToLowerInvariant(),
+            PostedAtUtc = request.PostedAtUtc,
             Status = string.IsNullOrWhiteSpace(request.Status) ? "open" : request.Status.Trim().ToLowerInvariant(),
             DueAtUtc = request.DueAtUtc,
             CreatedAtUtc = DateTime.UtcNow,
@@ -142,6 +166,11 @@ public class AccountingOperationsService
             InvoiceNumber = string.IsNullOrWhiteSpace(request.InvoiceNumber) ? $"AR-{DateTime.UtcNow:HHmmss}" : request.InvoiceNumber.Trim().ToUpperInvariant(),
             Amount = request.Amount.GetValueOrDefault(),
             BalanceDue = request.BalanceDue ?? request.Amount.GetValueOrDefault(),
+            ReceivableType = string.IsNullOrWhiteSpace(request.ReceivableType) ? "aftersales" : request.ReceivableType.Trim().ToLowerInvariant(),
+            ProfitCentre = (request.ProfitCentre ?? "").Trim().ToLowerInvariant(),
+            Brand = (request.Brand ?? "").Trim().ToUpperInvariant(),
+            AgingBucket = string.IsNullOrWhiteSpace(request.AgingBucket) ? "current" : request.AgingBucket.Trim().ToLowerInvariant(),
+            PostedAtUtc = request.PostedAtUtc,
             Status = string.IsNullOrWhiteSpace(request.Status) ? "open" : request.Status.Trim().ToLowerInvariant(),
             DueAtUtc = request.DueAtUtc,
             CreatedAtUtc = DateTime.UtcNow,
@@ -187,6 +216,31 @@ public class AccountingOperationsService
         }
 
         return MapArInvoice(entity);
+    }
+
+    public WorkInProgressRecord CreateWorkInProgress(CreateWorkInProgressRequest request)
+    {
+        using var db = _dbContextFactory.CreateDbContext();
+        var entity = new DmsWorkInProgressEntity
+        {
+            Id = Guid.NewGuid(),
+            RepairOrderId = request.RepairOrderId,
+            ProfitCentre = string.IsNullOrWhiteSpace(request.ProfitCentre) ? "service" : request.ProfitCentre.Trim().ToLowerInvariant(),
+            PayType = string.IsNullOrWhiteSpace(request.PayType) ? "customer" : request.PayType.Trim().ToLowerInvariant(),
+            LabourAmount = request.LabourAmount.GetValueOrDefault(),
+            PartsAmount = request.PartsAmount.GetValueOrDefault(),
+            SubletAmount = request.SubletAmount.GetValueOrDefault(),
+            Status = string.IsNullOrWhiteSpace(request.Status) ? "open" : request.Status.Trim().ToLowerInvariant(),
+            PostedAtUtc = request.PostedAtUtc,
+            CreatedAtUtc = DateTime.UtcNow,
+            UpdatedAtUtc = DateTime.UtcNow
+        };
+
+        db.WorkInProgress.Add(entity);
+        db.SaveChanges();
+
+        EmitRepairOrderTimeline(db, request.RepairOrderId, "accounting.wip_created", $"WIP {entity.ProfitCentre}", $"{entity.PayType} • {(entity.LabourAmount + entity.PartsAmount + entity.SubletAmount):0.00}", entity.Id);
+        return MapWorkInProgress(entity);
     }
 
     public BankReconciliationRecord CreateBankReconciliation(CreateBankReconciliationRequest request)
@@ -264,7 +318,12 @@ public class AccountingOperationsService
             Description = entity.Description,
             AccountType = entity.AccountType,
             Department = entity.Department,
+            ProfitCentre = entity.ProfitCentre,
+            Brand = entity.Brand,
+            StatementSection = entity.StatementSection,
+            StatementSubsection = entity.StatementSubsection,
             OemStatementGroup = entity.OemStatementGroup,
+            IsControlAccount = entity.IsControlAccount,
             IsActive = entity.IsActive,
             CreatedAtUtc = entity.CreatedAtUtc,
             UpdatedAtUtc = entity.UpdatedAtUtc
@@ -294,8 +353,15 @@ public class AccountingOperationsService
             Id = entity.Id,
             RepairOrderId = entity.RepairOrderId,
             VendorName = entity.VendorName,
+            VendorAccount = entity.VendorAccount,
             InvoiceNumber = entity.InvoiceNumber,
             Amount = entity.Amount,
+            BalanceDue = entity.BalanceDue,
+            PayableType = entity.PayableType,
+            ProfitCentre = entity.ProfitCentre,
+            Brand = entity.Brand,
+            AgingBucket = entity.AgingBucket,
+            PostedAtUtc = entity.PostedAtUtc,
             Status = entity.Status,
             DueAtUtc = entity.DueAtUtc,
             CreatedAtUtc = entity.CreatedAtUtc,
@@ -313,8 +379,31 @@ public class AccountingOperationsService
             InvoiceNumber = entity.InvoiceNumber,
             Amount = entity.Amount,
             BalanceDue = entity.BalanceDue,
+            ReceivableType = entity.ReceivableType,
+            ProfitCentre = entity.ProfitCentre,
+            Brand = entity.Brand,
+            AgingBucket = entity.AgingBucket,
+            PostedAtUtc = entity.PostedAtUtc,
             Status = entity.Status,
             DueAtUtc = entity.DueAtUtc,
+            CreatedAtUtc = entity.CreatedAtUtc,
+            UpdatedAtUtc = entity.UpdatedAtUtc
+        };
+    }
+
+    private static WorkInProgressRecord MapWorkInProgress(DmsWorkInProgressEntity entity)
+    {
+        return new WorkInProgressRecord
+        {
+            Id = entity.Id,
+            RepairOrderId = entity.RepairOrderId,
+            ProfitCentre = entity.ProfitCentre,
+            PayType = entity.PayType,
+            LabourAmount = entity.LabourAmount,
+            PartsAmount = entity.PartsAmount,
+            SubletAmount = entity.SubletAmount,
+            Status = entity.Status,
+            PostedAtUtc = entity.PostedAtUtc,
             CreatedAtUtc = entity.CreatedAtUtc,
             UpdatedAtUtc = entity.UpdatedAtUtc
         };

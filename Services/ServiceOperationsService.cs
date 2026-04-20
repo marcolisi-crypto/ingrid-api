@@ -520,11 +520,16 @@ public class ServiceOperationsService
             RepairOrderId = repairOrderId,
             ClaimNumber = string.IsNullOrWhiteSpace(request.ClaimNumber) ? $"WC-{DateTime.UtcNow:HHmmss}" : request.ClaimNumber.Trim().ToUpperInvariant(),
             ClaimType = string.IsNullOrWhiteSpace(request.ClaimType) ? "warranty" : request.ClaimType.Trim().ToLowerInvariant(),
+            Manufacturer = (request.Manufacturer ?? "").Trim(),
             OpCode = (request.OpCode ?? "").Trim().ToUpperInvariant(),
             FailureCode = (request.FailureCode ?? "").Trim().ToUpperInvariant(),
             Cause = (request.Cause ?? "").Trim(),
             Correction = (request.Correction ?? "").Trim(),
             ClaimAmount = request.ClaimAmount.GetValueOrDefault(),
+            ApprovedAmount = request.ApprovedAmount ?? request.ClaimAmount.GetValueOrDefault(),
+            ReceivableStatus = string.IsNullOrWhiteSpace(request.ReceivableStatus) ? "unsubmitted" : request.ReceivableStatus.Trim().ToLowerInvariant(),
+            ApprovedAtUtc = request.ApprovedAtUtc,
+            PostedAtUtc = request.PostedAtUtc,
             Status = string.IsNullOrWhiteSpace(request.Status) ? "draft" : request.Status.Trim().ToLowerInvariant(),
             SubmittedAtUtc = request.SubmittedAtUtc ?? DateTime.UtcNow,
             CreatedAtUtc = DateTime.UtcNow,
@@ -670,6 +675,11 @@ public class ServiceOperationsService
             .OrderBy(x => x.CreatedAtUtc)
             .Select(MapPaySplit)
             .ToList();
+        var workInProgress = db.WorkInProgress
+            .Where(x => x.RepairOrderId == entity.Id)
+            .OrderByDescending(x => x.UpdatedAtUtc)
+            .Select(MapWorkInProgress)
+            .ToList();
         var clockEvents = db.TechnicianClockEvents
             .Where(x => x.RepairOrderId == entity.Id)
             .OrderByDescending(x => x.OccurredAtUtc)
@@ -715,6 +725,7 @@ public class ServiceOperationsService
             MultiPointInspections = inspections,
             WarrantyClaims = warrantyClaims,
             PaySplits = paySplits,
+            WorkInProgress = workInProgress,
             TechnicianClockEvents = clockEvents,
             AccountingEntries = accountingEntries
         };
@@ -824,11 +835,16 @@ public class ServiceOperationsService
             RepairOrderId = entity.RepairOrderId,
             ClaimNumber = entity.ClaimNumber,
             ClaimType = entity.ClaimType,
+            Manufacturer = entity.Manufacturer,
             OpCode = entity.OpCode,
             FailureCode = entity.FailureCode,
             Cause = entity.Cause,
             Correction = entity.Correction,
             ClaimAmount = entity.ClaimAmount,
+            ApprovedAmount = entity.ApprovedAmount,
+            ReceivableStatus = entity.ReceivableStatus,
+            ApprovedAtUtc = entity.ApprovedAtUtc,
+            PostedAtUtc = entity.PostedAtUtc,
             Status = entity.Status,
             SubmittedAtUtc = entity.SubmittedAtUtc,
             CreatedAtUtc = entity.CreatedAtUtc,
@@ -847,6 +863,24 @@ public class ServiceOperationsService
             Percentage = entity.Percentage,
             Status = entity.Status,
             Notes = entity.Notes,
+            CreatedAtUtc = entity.CreatedAtUtc,
+            UpdatedAtUtc = entity.UpdatedAtUtc
+        };
+    }
+
+    private static WorkInProgressRecord MapWorkInProgress(DmsWorkInProgressEntity entity)
+    {
+        return new WorkInProgressRecord
+        {
+            Id = entity.Id,
+            RepairOrderId = entity.RepairOrderId,
+            ProfitCentre = entity.ProfitCentre,
+            PayType = entity.PayType,
+            LabourAmount = entity.LabourAmount,
+            PartsAmount = entity.PartsAmount,
+            SubletAmount = entity.SubletAmount,
+            Status = entity.Status,
+            PostedAtUtc = entity.PostedAtUtc,
             CreatedAtUtc = entity.CreatedAtUtc,
             UpdatedAtUtc = entity.UpdatedAtUtc
         };
