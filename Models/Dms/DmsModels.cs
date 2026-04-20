@@ -230,6 +230,8 @@ public class CreateTaskRequest
 {
     public Guid? CustomerId { get; set; }
     public Guid? VehicleId { get; set; }
+    public string? AssignedDepartment { get; set; }
+    public string? AssignedUser { get; set; }
     public string? Title { get; set; }
     public string? Description { get; set; }
     public string? Priority { get; set; }
@@ -239,6 +241,8 @@ public class CreateTaskRequest
 public class UpdateTaskStatusRequest
 {
     public string? Status { get; set; }
+    public string? AssignedDepartment { get; set; }
+    public string? AssignedUser { get; set; }
 }
 
 public class TaskRecord
@@ -246,6 +250,8 @@ public class TaskRecord
     public Guid Id { get; set; } = Guid.NewGuid();
     public Guid? CustomerId { get; set; }
     public Guid? VehicleId { get; set; }
+    public string AssignedDepartment { get; set; } = "";
+    public string AssignedUser { get; set; } = "";
     public string Title { get; set; } = "";
     public string Description { get; set; } = "";
     public string Status { get; set; } = "open";

@@ -477,6 +477,13 @@ public class DmsCoreService
 
             db.Database.EnsureCreated();
 
+            var providerName = db.Database.ProviderName ?? string.Empty;
+            if (providerName.Contains("Npgsql", StringComparison.OrdinalIgnoreCase))
+            {
+                db.Database.ExecuteSqlRaw("alter table if exists tasks add column if not exists assigned_department text not null default '';");
+                db.Database.ExecuteSqlRaw("alter table if exists tasks add column if not exists assigned_user text not null default '';");
+            }
+
             if (!db.Dealerships.Any())
             {
                 db.Dealerships.Add(new DmsDealershipEntity

@@ -154,6 +154,8 @@ create table if not exists tasks (
   id uuid primary key default gen_random_uuid(),
   customer_id uuid references customers(id),
   vehicle_id uuid references vehicles(id),
+  assigned_department text not null default '',
+  assigned_user text not null default '',
   title text not null,
   description text not null default '',
   status text not null default 'open',

@@ -150,6 +150,8 @@ public class DmsTaskEntity
     public Guid Id { get; set; }
     public Guid? CustomerId { get; set; }
     public Guid? VehicleId { get; set; }
+    public string AssignedDepartment { get; set; } = "";
+    public string AssignedUser { get; set; } = "";
     public string Title { get; set; } = "";
     public string Description { get; set; } = "";
     public string Status { get; set; } = "open";

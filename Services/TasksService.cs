@@ -30,6 +30,8 @@ public class TasksService
             Id = Guid.NewGuid(),
             CustomerId = request.CustomerId,
             VehicleId = request.VehicleId,
+            AssignedDepartment = string.IsNullOrWhiteSpace(request.AssignedDepartment) ? string.Empty : request.AssignedDepartment.Trim(),
+            AssignedUser = string.IsNullOrWhiteSpace(request.AssignedUser) ? string.Empty : request.AssignedUser.Trim(),
             Title = string.IsNullOrWhiteSpace(request.Title) ? "Follow up" : request.Title.Trim(),
             Description = (request.Description ?? "").Trim(),
             Status = "open",
@@ -48,20 +50,22 @@ public class TasksService
             VehicleId = task.VehicleId,
             EventType = "task.created",
             Title = task.Title,
-            Body = task.Description,
+            Body = BuildTaskTimelineBody(task),
             SourceSystem = "ingrid.tasks"
         });
 
         return MapTask(task);
     }
 
-    public TaskRecord? UpdateTaskStatus(Guid taskId, string? status)
+    public TaskRecord? UpdateTask(Guid taskId, UpdateTaskStatusRequest request)
     {
         using var db = _dbContextFactory.CreateDbContext();
         var task = db.Tasks.FirstOrDefault(x => x.Id == taskId);
         if (task == null) return null;
 
-        task.Status = string.IsNullOrWhiteSpace(status) ? task.Status : status.Trim();
+        task.Status = string.IsNullOrWhiteSpace(request.Status) ? task.Status : request.Status.Trim();
+        task.AssignedDepartment = string.IsNullOrWhiteSpace(request.AssignedDepartment) ? task.AssignedDepartment : request.AssignedDepartment.Trim();
+        task.AssignedUser = string.IsNullOrWhiteSpace(request.AssignedUser) ? task.AssignedUser : request.AssignedUser.Trim();
         task.UpdatedAtUtc = DateTime.UtcNow;
         db.SaveChanges();
 
@@ -71,11 +75,19 @@ public class TasksService
             VehicleId = task.VehicleId,
             EventType = "task.updated",
             Title = $"Task {task.Status}",
-            Body = task.Title,
+            Body = BuildTaskTimelineBody(task),
             SourceSystem = "ingrid.tasks"
         });
 
         return MapTask(task);
+    }
+
+    private static string BuildTaskTimelineBody(DmsTaskEntity task)
+    {
+        var assignment = string.IsNullOrWhiteSpace(task.AssignedDepartment) && string.IsNullOrWhiteSpace(task.AssignedUser)
+            ? string.Empty
+            : $"Assigned to {task.AssignedDepartment}{(string.IsNullOrWhiteSpace(task.AssignedUser) ? string.Empty : $" • {task.AssignedUser}")}";
+        return string.Join(" • ", new[] { task.Description, assignment }.Where(item => !string.IsNullOrWhiteSpace(item)));
     }
 
     private static TaskRecord MapTask(DmsTaskEntity task)
@@ -85,6 +97,8 @@ public class TasksService
             Id = task.Id,
             CustomerId = task.CustomerId,
             VehicleId = task.VehicleId,
+            AssignedDepartment = task.AssignedDepartment,
+            AssignedUser = task.AssignedUser,
             Title = task.Title,
             Description = task.Description,
             Status = task.Status,

@@ -29,7 +29,7 @@ public class TasksController : ControllerBase
     [HttpPatch("/api/tasks/{taskId:guid}")]
     public IActionResult UpdateTaskStatus(Guid taskId, [FromBody] UpdateTaskStatusRequest request)
     {
-        var task = _tasksService.UpdateTaskStatus(taskId, request.Status);
+        var task = _tasksService.UpdateTask(taskId, request);
         return task == null ? NotFound(new { error = "Task not found." }) : Ok(task);
     }
 }
