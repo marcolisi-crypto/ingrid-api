@@ -26,6 +26,19 @@ public class IngridDmsDbContext : DbContext
     public DbSet<DmsRepairOrderPartLineEntity> RepairOrderPartLines => Set<DmsRepairOrderPartLineEntity>();
     public DbSet<DmsTechnicianClockEventEntity> TechnicianClockEvents => Set<DmsTechnicianClockEventEntity>();
     public DbSet<DmsAccountingEntryEntity> AccountingEntries => Set<DmsAccountingEntryEntity>();
+    public DbSet<DmsRepairOrderLaborOpEntity> RepairOrderLaborOps => Set<DmsRepairOrderLaborOpEntity>();
+    public DbSet<DmsMultiPointInspectionEntity> MultiPointInspections => Set<DmsMultiPointInspectionEntity>();
+    public DbSet<DmsWarrantyClaimEntity> WarrantyClaims => Set<DmsWarrantyClaimEntity>();
+    public DbSet<DmsRepairOrderPaySplitEntity> RepairOrderPaySplits => Set<DmsRepairOrderPaySplitEntity>();
+    public DbSet<DmsPartInventoryItemEntity> PartInventoryItems => Set<DmsPartInventoryItemEntity>();
+    public DbSet<DmsPartOrderEntity> PartOrders => Set<DmsPartOrderEntity>();
+    public DbSet<DmsPartReturnEntity> PartReturns => Set<DmsPartReturnEntity>();
+    public DbSet<DmsGlAccountEntity> GlAccounts => Set<DmsGlAccountEntity>();
+    public DbSet<DmsGlEntryEntity> GlEntries => Set<DmsGlEntryEntity>();
+    public DbSet<DmsAccountsPayableBillEntity> AccountsPayableBills => Set<DmsAccountsPayableBillEntity>();
+    public DbSet<DmsAccountsReceivableInvoiceEntity> AccountsReceivableInvoices => Set<DmsAccountsReceivableInvoiceEntity>();
+    public DbSet<DmsBankReconciliationEntity> BankReconciliations => Set<DmsBankReconciliationEntity>();
+    public DbSet<DmsAccountingClosePeriodEntity> AccountingClosePeriods => Set<DmsAccountingClosePeriodEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -169,6 +182,9 @@ public class IngridDmsDbContext : DbContext
             entity.Property(x => x.PaymentsApplied).HasPrecision(12, 2);
             entity.Property(x => x.TotalEstimate).HasPrecision(12, 2);
             entity.Property(x => x.BalanceDue).HasPrecision(12, 2);
+            entity.Property(x => x.CustomerPaySubtotal).HasPrecision(12, 2);
+            entity.Property(x => x.WarrantyPaySubtotal).HasPrecision(12, 2);
+            entity.Property(x => x.InternalPaySubtotal).HasPrecision(12, 2);
             entity.HasIndex(x => x.RepairOrderNumber).IsUnique();
             entity.HasIndex(x => x.CustomerId);
             entity.HasIndex(x => x.VehicleId);
@@ -219,6 +235,164 @@ public class IngridDmsDbContext : DbContext
             entity.Property(x => x.Amount).HasPrecision(12, 2);
             entity.Property(x => x.Status).HasMaxLength(50);
             entity.HasIndex(x => x.RepairOrderId);
+        });
+
+        modelBuilder.Entity<DmsRepairOrderLaborOpEntity>(entity =>
+        {
+            entity.ToTable("repair_order_labor_ops");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.OpCode).HasMaxLength(50);
+            entity.Property(x => x.TechnicianName).HasMaxLength(100);
+            entity.Property(x => x.SoldHours).HasPrecision(12, 2);
+            entity.Property(x => x.FlatRateHours).HasPrecision(12, 2);
+            entity.Property(x => x.ActualHours).HasPrecision(12, 2);
+            entity.Property(x => x.DispatchStatus).HasMaxLength(50);
+            entity.Property(x => x.PayType).HasMaxLength(50);
+            entity.HasIndex(x => x.RepairOrderId);
+        });
+
+        modelBuilder.Entity<DmsMultiPointInspectionEntity>(entity =>
+        {
+            entity.ToTable("multi_point_inspections");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.Category).HasMaxLength(100);
+            entity.Property(x => x.ItemName).HasMaxLength(200);
+            entity.Property(x => x.Result).HasMaxLength(50);
+            entity.Property(x => x.Severity).HasMaxLength(50);
+            entity.Property(x => x.TechnicianName).HasMaxLength(100);
+            entity.HasIndex(x => x.RepairOrderId);
+        });
+
+        modelBuilder.Entity<DmsWarrantyClaimEntity>(entity =>
+        {
+            entity.ToTable("warranty_claims");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.ClaimNumber).HasMaxLength(100);
+            entity.Property(x => x.ClaimType).HasMaxLength(50);
+            entity.Property(x => x.OpCode).HasMaxLength(50);
+            entity.Property(x => x.FailureCode).HasMaxLength(50);
+            entity.Property(x => x.ClaimAmount).HasPrecision(12, 2);
+            entity.Property(x => x.Status).HasMaxLength(50);
+            entity.HasIndex(x => x.RepairOrderId);
+            entity.HasIndex(x => x.ClaimNumber);
+        });
+
+        modelBuilder.Entity<DmsRepairOrderPaySplitEntity>(entity =>
+        {
+            entity.ToTable("repair_order_pay_splits");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.PayType).HasMaxLength(50);
+            entity.Property(x => x.Amount).HasPrecision(12, 2);
+            entity.Property(x => x.Percentage).HasPrecision(9, 4);
+            entity.Property(x => x.Status).HasMaxLength(50);
+            entity.HasIndex(x => x.RepairOrderId);
+        });
+
+        modelBuilder.Entity<DmsPartInventoryItemEntity>(entity =>
+        {
+            entity.ToTable("part_inventory_items");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.PartNumber).HasMaxLength(100);
+            entity.Property(x => x.Manufacturer).HasMaxLength(100);
+            entity.Property(x => x.SourceType).HasMaxLength(50);
+            entity.Property(x => x.BinLocation).HasMaxLength(100);
+            entity.Property(x => x.QuantityOnHand).HasPrecision(12, 2);
+            entity.Property(x => x.QuantityReserved).HasPrecision(12, 2);
+            entity.Property(x => x.QuantityOnOrder).HasPrecision(12, 2);
+            entity.Property(x => x.UnitCost).HasPrecision(12, 2);
+            entity.Property(x => x.ListPrice).HasPrecision(12, 2);
+            entity.Property(x => x.PricingMatrixCode).HasMaxLength(50);
+            entity.Property(x => x.Status).HasMaxLength(50);
+            entity.HasIndex(x => x.PartNumber).IsUnique();
+        });
+
+        modelBuilder.Entity<DmsPartOrderEntity>(entity =>
+        {
+            entity.ToTable("part_orders");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.PartNumber).HasMaxLength(100);
+            entity.Property(x => x.Vendor).HasMaxLength(100);
+            entity.Property(x => x.OrderType).HasMaxLength(50);
+            entity.Property(x => x.Quantity).HasPrecision(12, 2);
+            entity.Property(x => x.UnitCost).HasPrecision(12, 2);
+            entity.Property(x => x.Status).HasMaxLength(50);
+            entity.HasIndex(x => x.RepairOrderId);
+            entity.HasIndex(x => x.InventoryItemId);
+        });
+
+        modelBuilder.Entity<DmsPartReturnEntity>(entity =>
+        {
+            entity.ToTable("part_returns");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.PartNumber).HasMaxLength(100);
+            entity.Property(x => x.Quantity).HasPrecision(12, 2);
+            entity.Property(x => x.Status).HasMaxLength(50);
+            entity.HasIndex(x => x.RepairOrderId);
+            entity.HasIndex(x => x.InventoryItemId);
+        });
+
+        modelBuilder.Entity<DmsGlAccountEntity>(entity =>
+        {
+            entity.ToTable("gl_accounts");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.AccountNumber).HasMaxLength(50);
+            entity.Property(x => x.Description).HasMaxLength(200);
+            entity.Property(x => x.AccountType).HasMaxLength(50);
+            entity.Property(x => x.Department).HasMaxLength(50);
+            entity.Property(x => x.OemStatementGroup).HasMaxLength(100);
+            entity.HasIndex(x => x.AccountNumber).IsUnique();
+        });
+
+        modelBuilder.Entity<DmsGlEntryEntity>(entity =>
+        {
+            entity.ToTable("gl_entries");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.JournalCode).HasMaxLength(20);
+            entity.Property(x => x.DebitAmount).HasPrecision(12, 2);
+            entity.Property(x => x.CreditAmount).HasPrecision(12, 2);
+            entity.HasIndex(x => x.GlAccountId);
+            entity.HasIndex(x => x.RepairOrderId);
+        });
+
+        modelBuilder.Entity<DmsAccountsPayableBillEntity>(entity =>
+        {
+            entity.ToTable("accounts_payable_bills");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.VendorName).HasMaxLength(200);
+            entity.Property(x => x.InvoiceNumber).HasMaxLength(100);
+            entity.Property(x => x.Amount).HasPrecision(12, 2);
+            entity.Property(x => x.Status).HasMaxLength(50);
+            entity.HasIndex(x => x.RepairOrderId);
+        });
+
+        modelBuilder.Entity<DmsAccountsReceivableInvoiceEntity>(entity =>
+        {
+            entity.ToTable("accounts_receivable_invoices");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.InvoiceNumber).HasMaxLength(100);
+            entity.Property(x => x.Amount).HasPrecision(12, 2);
+            entity.Property(x => x.BalanceDue).HasPrecision(12, 2);
+            entity.Property(x => x.Status).HasMaxLength(50);
+            entity.HasIndex(x => x.RepairOrderId);
+            entity.HasIndex(x => x.CustomerId);
+        });
+
+        modelBuilder.Entity<DmsBankReconciliationEntity>(entity =>
+        {
+            entity.ToTable("bank_reconciliations");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.AccountNumber).HasMaxLength(50);
+            entity.Property(x => x.StatementBalance).HasPrecision(12, 2);
+            entity.Property(x => x.BookBalance).HasPrecision(12, 2);
+            entity.Property(x => x.Status).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<DmsAccountingClosePeriodEntity>(entity =>
+        {
+            entity.ToTable("accounting_close_periods");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.PeriodName).HasMaxLength(50);
+            entity.Property(x => x.Status).HasMaxLength(50);
         });
     }
 }

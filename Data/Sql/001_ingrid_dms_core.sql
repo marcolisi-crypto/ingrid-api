@@ -248,3 +248,207 @@ create table if not exists accounting_entries (
 );
 
 create index if not exists idx_accounting_entries_repair_order_id on accounting_entries(repair_order_id);
+
+alter table repair_orders add column if not exists customer_pay_subtotal numeric(12,2) not null default 0;
+alter table repair_orders add column if not exists warranty_pay_subtotal numeric(12,2) not null default 0;
+alter table repair_orders add column if not exists internal_pay_subtotal numeric(12,2) not null default 0;
+
+create table if not exists repair_order_labor_ops (
+  id uuid primary key default gen_random_uuid(),
+  repair_order_id uuid not null references repair_orders(id) on delete cascade,
+  op_code text not null default '',
+  description text not null default '',
+  technician_name text not null default '',
+  sold_hours numeric(12,2) not null default 0,
+  flat_rate_hours numeric(12,2) not null default 0,
+  actual_hours numeric(12,2) not null default 0,
+  dispatch_status text not null default 'queued',
+  pay_type text not null default 'customer',
+  dispatched_at_utc timestamptz,
+  completed_at_utc timestamptz,
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_repair_order_labor_ops_repair_order_id on repair_order_labor_ops(repair_order_id);
+
+create table if not exists multi_point_inspections (
+  id uuid primary key default gen_random_uuid(),
+  repair_order_id uuid not null references repair_orders(id) on delete cascade,
+  category text not null default '',
+  item_name text not null default '',
+  result text not null default 'green',
+  severity text not null default 'normal',
+  notes text not null default '',
+  technician_name text not null default '',
+  inspected_at_utc timestamptz not null default now(),
+  created_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_multi_point_inspections_repair_order_id on multi_point_inspections(repair_order_id);
+
+create table if not exists warranty_claims (
+  id uuid primary key default gen_random_uuid(),
+  repair_order_id uuid not null references repair_orders(id) on delete cascade,
+  claim_number text not null default '',
+  claim_type text not null default 'warranty',
+  op_code text not null default '',
+  failure_code text not null default '',
+  cause text not null default '',
+  correction text not null default '',
+  claim_amount numeric(12,2) not null default 0,
+  status text not null default 'draft',
+  submitted_at_utc timestamptz not null default now(),
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_warranty_claims_repair_order_id on warranty_claims(repair_order_id);
+create index if not exists idx_warranty_claims_claim_number on warranty_claims(claim_number);
+
+create table if not exists repair_order_pay_splits (
+  id uuid primary key default gen_random_uuid(),
+  repair_order_id uuid not null references repair_orders(id) on delete cascade,
+  pay_type text not null default 'customer',
+  amount numeric(12,2) not null default 0,
+  percentage numeric(9,4) not null default 0,
+  status text not null default 'open',
+  notes text not null default '',
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_repair_order_pay_splits_repair_order_id on repair_order_pay_splits(repair_order_id);
+
+create table if not exists part_inventory_items (
+  id uuid primary key default gen_random_uuid(),
+  part_number text not null unique,
+  description text not null default '',
+  manufacturer text not null default '',
+  source_type text not null default 'oem',
+  bin_location text not null default '',
+  quantity_on_hand numeric(12,2) not null default 0,
+  quantity_reserved numeric(12,2) not null default 0,
+  quantity_on_order numeric(12,2) not null default 0,
+  unit_cost numeric(12,2) not null default 0,
+  list_price numeric(12,2) not null default 0,
+  pricing_matrix_code text not null default '',
+  status text not null default 'active',
+  is_obsolete boolean not null default false,
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create table if not exists part_orders (
+  id uuid primary key default gen_random_uuid(),
+  repair_order_id uuid references repair_orders(id),
+  inventory_item_id uuid references part_inventory_items(id),
+  part_number text not null default '',
+  vendor text not null default '',
+  order_type text not null default 'stock',
+  quantity numeric(12,2) not null default 1,
+  unit_cost numeric(12,2) not null default 0,
+  status text not null default 'ordered',
+  is_special_order boolean not null default false,
+  eta_at_utc timestamptz,
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_part_orders_repair_order_id on part_orders(repair_order_id);
+create index if not exists idx_part_orders_inventory_item_id on part_orders(inventory_item_id);
+
+create table if not exists part_returns (
+  id uuid primary key default gen_random_uuid(),
+  repair_order_id uuid references repair_orders(id),
+  inventory_item_id uuid references part_inventory_items(id),
+  part_number text not null default '',
+  quantity numeric(12,2) not null default 0,
+  reason text not null default '',
+  status text not null default 'requested',
+  is_obsolescence boolean not null default false,
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_part_returns_repair_order_id on part_returns(repair_order_id);
+create index if not exists idx_part_returns_inventory_item_id on part_returns(inventory_item_id);
+
+create table if not exists gl_accounts (
+  id uuid primary key default gen_random_uuid(),
+  account_number text not null unique,
+  description text not null default '',
+  account_type text not null default 'asset',
+  department text not null default '',
+  oem_statement_group text not null default '',
+  is_active boolean not null default true,
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create table if not exists gl_entries (
+  id uuid primary key default gen_random_uuid(),
+  repair_order_id uuid references repair_orders(id),
+  gl_account_id uuid not null references gl_accounts(id),
+  journal_code text not null default 'GEN',
+  description text not null default '',
+  debit_amount numeric(12,2) not null default 0,
+  credit_amount numeric(12,2) not null default 0,
+  posted_at_utc timestamptz not null default now(),
+  created_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_gl_entries_gl_account_id on gl_entries(gl_account_id);
+create index if not exists idx_gl_entries_repair_order_id on gl_entries(repair_order_id);
+
+create table if not exists accounts_payable_bills (
+  id uuid primary key default gen_random_uuid(),
+  repair_order_id uuid references repair_orders(id),
+  vendor_name text not null default '',
+  invoice_number text not null default '',
+  amount numeric(12,2) not null default 0,
+  status text not null default 'open',
+  due_at_utc timestamptz,
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_accounts_payable_bills_repair_order_id on accounts_payable_bills(repair_order_id);
+
+create table if not exists accounts_receivable_invoices (
+  id uuid primary key default gen_random_uuid(),
+  repair_order_id uuid references repair_orders(id),
+  customer_id uuid references customers(id),
+  invoice_number text not null default '',
+  amount numeric(12,2) not null default 0,
+  balance_due numeric(12,2) not null default 0,
+  status text not null default 'open',
+  due_at_utc timestamptz,
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_accounts_receivable_invoices_repair_order_id on accounts_receivable_invoices(repair_order_id);
+create index if not exists idx_accounts_receivable_invoices_customer_id on accounts_receivable_invoices(customer_id);
+
+create table if not exists bank_reconciliations (
+  id uuid primary key default gen_random_uuid(),
+  account_number text not null default '',
+  statement_ending_at_utc timestamptz not null default now(),
+  statement_balance numeric(12,2) not null default 0,
+  book_balance numeric(12,2) not null default 0,
+  status text not null default 'open',
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create table if not exists accounting_close_periods (
+  id uuid primary key default gen_random_uuid(),
+  period_name text not null default '',
+  period_start_utc timestamptz not null default now(),
+  period_end_utc timestamptz not null default now(),
+  status text not null default 'open',
+  notes text not null default '',
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);

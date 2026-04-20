@@ -38,6 +38,8 @@ builder.Services.AddScoped<NotesService>();
 builder.Services.AddScoped<TasksService>();
 builder.Services.AddScoped<AppointmentsService>();
 builder.Services.AddScoped<ServiceOperationsService>();
+builder.Services.AddScoped<PartsManagementService>();
+builder.Services.AddScoped<AccountingOperationsService>();
 builder.Services.AddSingleton<TwilioSmsService>();
 
 builder.Services.AddCors(options =>

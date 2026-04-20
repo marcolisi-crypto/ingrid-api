@@ -256,6 +256,7 @@ public class ServiceOperationsService
         {
             entity.Status = "in_progress";
         }
+
         entity.UpdatedAtUtc = DateTime.UtcNow;
         db.SaveChanges();
 
@@ -312,6 +313,185 @@ public class ServiceOperationsService
         return MapRepairOrder(db, entity);
     }
 
+    public RepairOrderRecord? AddLaborOp(Guid repairOrderId, CreateRepairOrderLaborOpRequest request)
+    {
+        using var db = _dbContextFactory.CreateDbContext();
+        var entity = db.RepairOrders.FirstOrDefault(x => x.Id == repairOrderId);
+        if (entity == null) return null;
+
+        var laborOp = new DmsRepairOrderLaborOpEntity
+        {
+            Id = Guid.NewGuid(),
+            RepairOrderId = repairOrderId,
+            OpCode = string.IsNullOrWhiteSpace(request.OpCode) ? "GEN-OP" : request.OpCode.Trim().ToUpperInvariant(),
+            Description = string.IsNullOrWhiteSpace(request.Description) ? "General labor operation" : request.Description.Trim(),
+            TechnicianName = (request.TechnicianName ?? "").Trim(),
+            SoldHours = request.SoldHours.GetValueOrDefault(),
+            FlatRateHours = request.FlatRateHours.GetValueOrDefault(),
+            ActualHours = request.ActualHours.GetValueOrDefault(),
+            DispatchStatus = string.IsNullOrWhiteSpace(request.DispatchStatus) ? "queued" : request.DispatchStatus.Trim().ToLowerInvariant(),
+            PayType = string.IsNullOrWhiteSpace(request.PayType) ? "customer" : request.PayType.Trim().ToLowerInvariant(),
+            DispatchedAtUtc = request.DispatchedAtUtc,
+            CompletedAtUtc = request.CompletedAtUtc,
+            CreatedAtUtc = DateTime.UtcNow,
+            UpdatedAtUtc = DateTime.UtcNow
+        };
+
+        db.RepairOrderLaborOps.Add(laborOp);
+        entity.Status = laborOp.DispatchStatus is "dispatched" or "in_progress" or "complete"
+            ? "in_progress"
+            : entity.Status;
+        entity.UpdatedAtUtc = DateTime.UtcNow;
+        db.SaveChanges();
+
+        _dmsCore.AddTimelineEvent(new CreateTimelineEventRequest
+        {
+            CustomerId = entity.CustomerId,
+            VehicleId = entity.VehicleId,
+            EventType = "repair_order.labor_op_added",
+            Title = $"Labor op {laborOp.OpCode} added",
+            Body = $"{laborOp.Description} • {laborOp.DispatchStatus}",
+            Department = "technicians",
+            SourceSystem = "ingrid.service",
+            SourceId = laborOp.Id.ToString()
+        });
+
+        return MapRepairOrder(db, entity);
+    }
+
+    public RepairOrderRecord? AddMultiPointInspection(Guid repairOrderId, CreateMultiPointInspectionRequest request)
+    {
+        using var db = _dbContextFactory.CreateDbContext();
+        var entity = db.RepairOrders.FirstOrDefault(x => x.Id == repairOrderId);
+        if (entity == null) return null;
+
+        var inspection = new DmsMultiPointInspectionEntity
+        {
+            Id = Guid.NewGuid(),
+            RepairOrderId = repairOrderId,
+            Category = string.IsNullOrWhiteSpace(request.Category) ? "general" : request.Category.Trim(),
+            ItemName = string.IsNullOrWhiteSpace(request.ItemName) ? "Inspection item" : request.ItemName.Trim(),
+            Result = string.IsNullOrWhiteSpace(request.Result) ? "green" : request.Result.Trim().ToLowerInvariant(),
+            Severity = string.IsNullOrWhiteSpace(request.Severity) ? "normal" : request.Severity.Trim().ToLowerInvariant(),
+            Notes = (request.Notes ?? "").Trim(),
+            TechnicianName = (request.TechnicianName ?? "").Trim(),
+            InspectedAtUtc = request.InspectedAtUtc ?? DateTime.UtcNow,
+            CreatedAtUtc = DateTime.UtcNow
+        };
+
+        db.MultiPointInspections.Add(inspection);
+        entity.UpdatedAtUtc = DateTime.UtcNow;
+        db.SaveChanges();
+
+        _dmsCore.AddTimelineEvent(new CreateTimelineEventRequest
+        {
+            CustomerId = entity.CustomerId,
+            VehicleId = entity.VehicleId,
+            EventType = "repair_order.mpi_added",
+            Title = $"MPI {inspection.Result}",
+            Body = $"{inspection.Category}: {inspection.ItemName}",
+            Department = "technicians",
+            SourceSystem = "ingrid.technicians",
+            SourceId = inspection.Id.ToString(),
+            OccurredAtUtc = inspection.InspectedAtUtc
+        });
+
+        return MapRepairOrder(db, entity);
+    }
+
+    public RepairOrderRecord? AddWarrantyClaim(Guid repairOrderId, CreateWarrantyClaimRequest request)
+    {
+        using var db = _dbContextFactory.CreateDbContext();
+        var entity = db.RepairOrders.FirstOrDefault(x => x.Id == repairOrderId);
+        if (entity == null) return null;
+
+        var claim = new DmsWarrantyClaimEntity
+        {
+            Id = Guid.NewGuid(),
+            RepairOrderId = repairOrderId,
+            ClaimNumber = string.IsNullOrWhiteSpace(request.ClaimNumber) ? $"WC-{DateTime.UtcNow:HHmmss}" : request.ClaimNumber.Trim().ToUpperInvariant(),
+            ClaimType = string.IsNullOrWhiteSpace(request.ClaimType) ? "warranty" : request.ClaimType.Trim().ToLowerInvariant(),
+            OpCode = (request.OpCode ?? "").Trim().ToUpperInvariant(),
+            FailureCode = (request.FailureCode ?? "").Trim().ToUpperInvariant(),
+            Cause = (request.Cause ?? "").Trim(),
+            Correction = (request.Correction ?? "").Trim(),
+            ClaimAmount = request.ClaimAmount.GetValueOrDefault(),
+            Status = string.IsNullOrWhiteSpace(request.Status) ? "draft" : request.Status.Trim().ToLowerInvariant(),
+            SubmittedAtUtc = request.SubmittedAtUtc ?? DateTime.UtcNow,
+            CreatedAtUtc = DateTime.UtcNow,
+            UpdatedAtUtc = DateTime.UtcNow
+        };
+
+        db.WarrantyClaims.Add(claim);
+        db.RepairOrderPaySplits.Add(new DmsRepairOrderPaySplitEntity
+        {
+            Id = Guid.NewGuid(),
+            RepairOrderId = repairOrderId,
+            PayType = "warranty",
+            Amount = claim.ClaimAmount,
+            Percentage = 0m,
+            Status = claim.Status,
+            Notes = $"Warranty claim {claim.ClaimNumber}",
+            CreatedAtUtc = DateTime.UtcNow,
+            UpdatedAtUtc = DateTime.UtcNow
+        });
+
+        RecalculateRepairOrderTotals(db, entity);
+        db.SaveChanges();
+
+        _dmsCore.AddTimelineEvent(new CreateTimelineEventRequest
+        {
+            CustomerId = entity.CustomerId,
+            VehicleId = entity.VehicleId,
+            EventType = "repair_order.warranty_claim_added",
+            Title = $"Warranty claim {claim.ClaimNumber}",
+            Body = $"{claim.OpCode} {claim.ClaimAmount:0.00}",
+            Department = "service",
+            SourceSystem = "ingrid.warranty",
+            SourceId = claim.Id.ToString()
+        });
+
+        return MapRepairOrder(db, entity);
+    }
+
+    public RepairOrderRecord? AddPaySplit(Guid repairOrderId, CreateRepairOrderPaySplitRequest request)
+    {
+        using var db = _dbContextFactory.CreateDbContext();
+        var entity = db.RepairOrders.FirstOrDefault(x => x.Id == repairOrderId);
+        if (entity == null) return null;
+
+        var split = new DmsRepairOrderPaySplitEntity
+        {
+            Id = Guid.NewGuid(),
+            RepairOrderId = repairOrderId,
+            PayType = string.IsNullOrWhiteSpace(request.PayType) ? "customer" : request.PayType.Trim().ToLowerInvariant(),
+            Amount = request.Amount.GetValueOrDefault(),
+            Percentage = request.Percentage.GetValueOrDefault(),
+            Status = string.IsNullOrWhiteSpace(request.Status) ? "open" : request.Status.Trim().ToLowerInvariant(),
+            Notes = (request.Notes ?? "").Trim(),
+            CreatedAtUtc = DateTime.UtcNow,
+            UpdatedAtUtc = DateTime.UtcNow
+        };
+
+        db.RepairOrderPaySplits.Add(split);
+        RecalculateRepairOrderTotals(db, entity);
+        db.SaveChanges();
+
+        _dmsCore.AddTimelineEvent(new CreateTimelineEventRequest
+        {
+            CustomerId = entity.CustomerId,
+            VehicleId = entity.VehicleId,
+            EventType = "repair_order.pay_split_added",
+            Title = $"Pay split {split.PayType}",
+            Body = $"{split.Amount:0.00} {split.Notes}".Trim(),
+            Department = "accounting",
+            SourceSystem = "ingrid.accounting",
+            SourceId = split.Id.ToString()
+        });
+
+        return MapRepairOrder(db, entity);
+    }
+
     private static string GenerateRepairOrderNumber()
     {
         var timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
@@ -323,6 +503,7 @@ public class ServiceOperationsService
         var estimateLines = db.RepairOrderEstimateLines.Where(x => x.RepairOrderId == entity.Id).ToList();
         var partLines = db.RepairOrderPartLines.Where(x => x.RepairOrderId == entity.Id).ToList();
         var accountingEntries = db.AccountingEntries.Where(x => x.RepairOrderId == entity.Id).ToList();
+        var paySplits = db.RepairOrderPaySplits.Where(x => x.RepairOrderId == entity.Id).ToList();
 
         entity.LaborSubtotal = estimateLines
             .Where(x => x.LineType.Contains("labor"))
@@ -334,6 +515,9 @@ public class ServiceOperationsService
         entity.PaymentsApplied = accountingEntries
             .Where(x => x.EntryType.Contains("payment") || x.EntryType.Contains("credit"))
             .Sum(x => x.Amount);
+        entity.CustomerPaySubtotal = paySplits.Where(x => x.PayType == "customer").Sum(x => x.Amount);
+        entity.WarrantyPaySubtotal = paySplits.Where(x => x.PayType == "warranty").Sum(x => x.Amount);
+        entity.InternalPaySubtotal = paySplits.Where(x => x.PayType == "internal").Sum(x => x.Amount);
         entity.TotalEstimate = entity.LaborSubtotal + entity.PartsSubtotal + entity.FeesSubtotal;
         entity.BalanceDue = entity.TotalEstimate - entity.PaymentsApplied;
         entity.UpdatedAtUtc = DateTime.UtcNow;
@@ -350,6 +534,26 @@ public class ServiceOperationsService
             .Where(x => x.RepairOrderId == entity.Id)
             .OrderBy(x => x.CreatedAtUtc)
             .Select(MapPartLine)
+            .ToList();
+        var laborOps = db.RepairOrderLaborOps
+            .Where(x => x.RepairOrderId == entity.Id)
+            .OrderBy(x => x.CreatedAtUtc)
+            .Select(MapLaborOp)
+            .ToList();
+        var inspections = db.MultiPointInspections
+            .Where(x => x.RepairOrderId == entity.Id)
+            .OrderByDescending(x => x.InspectedAtUtc)
+            .Select(MapInspection)
+            .ToList();
+        var warrantyClaims = db.WarrantyClaims
+            .Where(x => x.RepairOrderId == entity.Id)
+            .OrderByDescending(x => x.SubmittedAtUtc)
+            .Select(MapWarrantyClaim)
+            .ToList();
+        var paySplits = db.RepairOrderPaySplits
+            .Where(x => x.RepairOrderId == entity.Id)
+            .OrderBy(x => x.CreatedAtUtc)
+            .Select(MapPaySplit)
             .ToList();
         var clockEvents = db.TechnicianClockEvents
             .Where(x => x.RepairOrderId == entity.Id)
@@ -384,10 +588,17 @@ public class ServiceOperationsService
             PaymentsApplied = entity.PaymentsApplied,
             TotalEstimate = entity.TotalEstimate,
             BalanceDue = entity.BalanceDue,
+            CustomerPaySubtotal = entity.CustomerPaySubtotal,
+            WarrantyPaySubtotal = entity.WarrantyPaySubtotal,
+            InternalPaySubtotal = entity.InternalPaySubtotal,
             CreatedAtUtc = entity.CreatedAtUtc,
             UpdatedAtUtc = entity.UpdatedAtUtc,
             EstimateLines = estimateLines,
             PartLines = partLines,
+            LaborOps = laborOps,
+            MultiPointInspections = inspections,
+            WarrantyClaims = warrantyClaims,
+            PaySplits = paySplits,
             TechnicianClockEvents = clockEvents,
             AccountingEntries = accountingEntries
         };
@@ -423,6 +634,80 @@ public class ServiceOperationsService
             UnitPrice = entity.UnitPrice,
             Status = entity.Status,
             Source = entity.Source,
+            CreatedAtUtc = entity.CreatedAtUtc,
+            UpdatedAtUtc = entity.UpdatedAtUtc
+        };
+    }
+
+    private static RepairOrderLaborOpRecord MapLaborOp(DmsRepairOrderLaborOpEntity entity)
+    {
+        return new RepairOrderLaborOpRecord
+        {
+            Id = entity.Id,
+            RepairOrderId = entity.RepairOrderId,
+            OpCode = entity.OpCode,
+            Description = entity.Description,
+            TechnicianName = entity.TechnicianName,
+            SoldHours = entity.SoldHours,
+            FlatRateHours = entity.FlatRateHours,
+            ActualHours = entity.ActualHours,
+            DispatchStatus = entity.DispatchStatus,
+            PayType = entity.PayType,
+            DispatchedAtUtc = entity.DispatchedAtUtc,
+            CompletedAtUtc = entity.CompletedAtUtc,
+            CreatedAtUtc = entity.CreatedAtUtc,
+            UpdatedAtUtc = entity.UpdatedAtUtc
+        };
+    }
+
+    private static MultiPointInspectionRecord MapInspection(DmsMultiPointInspectionEntity entity)
+    {
+        return new MultiPointInspectionRecord
+        {
+            Id = entity.Id,
+            RepairOrderId = entity.RepairOrderId,
+            Category = entity.Category,
+            ItemName = entity.ItemName,
+            Result = entity.Result,
+            Severity = entity.Severity,
+            Notes = entity.Notes,
+            TechnicianName = entity.TechnicianName,
+            InspectedAtUtc = entity.InspectedAtUtc,
+            CreatedAtUtc = entity.CreatedAtUtc
+        };
+    }
+
+    private static WarrantyClaimRecord MapWarrantyClaim(DmsWarrantyClaimEntity entity)
+    {
+        return new WarrantyClaimRecord
+        {
+            Id = entity.Id,
+            RepairOrderId = entity.RepairOrderId,
+            ClaimNumber = entity.ClaimNumber,
+            ClaimType = entity.ClaimType,
+            OpCode = entity.OpCode,
+            FailureCode = entity.FailureCode,
+            Cause = entity.Cause,
+            Correction = entity.Correction,
+            ClaimAmount = entity.ClaimAmount,
+            Status = entity.Status,
+            SubmittedAtUtc = entity.SubmittedAtUtc,
+            CreatedAtUtc = entity.CreatedAtUtc,
+            UpdatedAtUtc = entity.UpdatedAtUtc
+        };
+    }
+
+    private static RepairOrderPaySplitRecord MapPaySplit(DmsRepairOrderPaySplitEntity entity)
+    {
+        return new RepairOrderPaySplitRecord
+        {
+            Id = entity.Id,
+            RepairOrderId = entity.RepairOrderId,
+            PayType = entity.PayType,
+            Amount = entity.Amount,
+            Percentage = entity.Percentage,
+            Status = entity.Status,
+            Notes = entity.Notes,
             CreatedAtUtc = entity.CreatedAtUtc,
             UpdatedAtUtc = entity.UpdatedAtUtc
         };

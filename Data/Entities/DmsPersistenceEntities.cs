@@ -186,6 +186,9 @@ public class DmsRepairOrderEntity
     public decimal PaymentsApplied { get; set; }
     public decimal TotalEstimate { get; set; }
     public decimal BalanceDue { get; set; }
+    public decimal CustomerPaySubtotal { get; set; }
+    public decimal WarrantyPaySubtotal { get; set; }
+    public decimal InternalPaySubtotal { get; set; }
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
 }
@@ -239,6 +242,196 @@ public class DmsAccountingEntryEntity
     public string Description { get; set; } = "";
     public decimal Amount { get; set; }
     public string Status { get; set; } = "open";
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class DmsRepairOrderLaborOpEntity
+{
+    public Guid Id { get; set; }
+    public Guid RepairOrderId { get; set; }
+    public string OpCode { get; set; } = "";
+    public string Description { get; set; } = "";
+    public string TechnicianName { get; set; } = "";
+    public decimal SoldHours { get; set; }
+    public decimal FlatRateHours { get; set; }
+    public decimal ActualHours { get; set; }
+    public string DispatchStatus { get; set; } = "queued";
+    public string PayType { get; set; } = "customer";
+    public DateTime? DispatchedAtUtc { get; set; }
+    public DateTime? CompletedAtUtc { get; set; }
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class DmsMultiPointInspectionEntity
+{
+    public Guid Id { get; set; }
+    public Guid RepairOrderId { get; set; }
+    public string Category { get; set; } = "";
+    public string ItemName { get; set; } = "";
+    public string Result { get; set; } = "green";
+    public string Severity { get; set; } = "normal";
+    public string Notes { get; set; } = "";
+    public string TechnicianName { get; set; } = "";
+    public DateTime InspectedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class DmsWarrantyClaimEntity
+{
+    public Guid Id { get; set; }
+    public Guid RepairOrderId { get; set; }
+    public string ClaimNumber { get; set; } = "";
+    public string ClaimType { get; set; } = "warranty";
+    public string OpCode { get; set; } = "";
+    public string FailureCode { get; set; } = "";
+    public string Cause { get; set; } = "";
+    public string Correction { get; set; } = "";
+    public decimal ClaimAmount { get; set; }
+    public string Status { get; set; } = "draft";
+    public DateTime SubmittedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class DmsRepairOrderPaySplitEntity
+{
+    public Guid Id { get; set; }
+    public Guid RepairOrderId { get; set; }
+    public string PayType { get; set; } = "customer";
+    public decimal Amount { get; set; }
+    public decimal Percentage { get; set; }
+    public string Status { get; set; } = "open";
+    public string Notes { get; set; } = "";
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class DmsPartInventoryItemEntity
+{
+    public Guid Id { get; set; }
+    public string PartNumber { get; set; } = "";
+    public string Description { get; set; } = "";
+    public string Manufacturer { get; set; } = "";
+    public string SourceType { get; set; } = "oem";
+    public string BinLocation { get; set; } = "";
+    public decimal QuantityOnHand { get; set; }
+    public decimal QuantityReserved { get; set; }
+    public decimal QuantityOnOrder { get; set; }
+    public decimal UnitCost { get; set; }
+    public decimal ListPrice { get; set; }
+    public string PricingMatrixCode { get; set; } = "";
+    public string Status { get; set; } = "active";
+    public bool IsObsolete { get; set; }
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class DmsPartOrderEntity
+{
+    public Guid Id { get; set; }
+    public Guid? RepairOrderId { get; set; }
+    public Guid? InventoryItemId { get; set; }
+    public string PartNumber { get; set; } = "";
+    public string Vendor { get; set; } = "";
+    public string OrderType { get; set; } = "stock";
+    public decimal Quantity { get; set; } = 1m;
+    public decimal UnitCost { get; set; }
+    public string Status { get; set; } = "ordered";
+    public bool IsSpecialOrder { get; set; }
+    public DateTime? EtaAtUtc { get; set; }
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class DmsPartReturnEntity
+{
+    public Guid Id { get; set; }
+    public Guid? RepairOrderId { get; set; }
+    public Guid? InventoryItemId { get; set; }
+    public string PartNumber { get; set; } = "";
+    public decimal Quantity { get; set; }
+    public string Reason { get; set; } = "";
+    public string Status { get; set; } = "requested";
+    public bool IsObsolescence { get; set; }
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class DmsGlAccountEntity
+{
+    public Guid Id { get; set; }
+    public string AccountNumber { get; set; } = "";
+    public string Description { get; set; } = "";
+    public string AccountType { get; set; } = "asset";
+    public string Department { get; set; } = "";
+    public string OemStatementGroup { get; set; } = "";
+    public bool IsActive { get; set; } = true;
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class DmsGlEntryEntity
+{
+    public Guid Id { get; set; }
+    public Guid? RepairOrderId { get; set; }
+    public Guid GlAccountId { get; set; }
+    public string JournalCode { get; set; } = "GEN";
+    public string Description { get; set; } = "";
+    public decimal DebitAmount { get; set; }
+    public decimal CreditAmount { get; set; }
+    public DateTime PostedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class DmsAccountsPayableBillEntity
+{
+    public Guid Id { get; set; }
+    public Guid? RepairOrderId { get; set; }
+    public string VendorName { get; set; } = "";
+    public string InvoiceNumber { get; set; } = "";
+    public decimal Amount { get; set; }
+    public string Status { get; set; } = "open";
+    public DateTime? DueAtUtc { get; set; }
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class DmsAccountsReceivableInvoiceEntity
+{
+    public Guid Id { get; set; }
+    public Guid? RepairOrderId { get; set; }
+    public Guid? CustomerId { get; set; }
+    public string InvoiceNumber { get; set; } = "";
+    public decimal Amount { get; set; }
+    public decimal BalanceDue { get; set; }
+    public string Status { get; set; } = "open";
+    public DateTime? DueAtUtc { get; set; }
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class DmsBankReconciliationEntity
+{
+    public Guid Id { get; set; }
+    public string AccountNumber { get; set; } = "";
+    public DateTime StatementEndingAtUtc { get; set; } = DateTime.UtcNow;
+    public decimal StatementBalance { get; set; }
+    public decimal BookBalance { get; set; }
+    public string Status { get; set; } = "open";
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class DmsAccountingClosePeriodEntity
+{
+    public Guid Id { get; set; }
+    public string PeriodName { get; set; } = "";
+    public DateTime PeriodStartUtc { get; set; } = DateTime.UtcNow;
+    public DateTime PeriodEndUtc { get; set; } = DateTime.UtcNow;
+    public string Status { get; set; } = "open";
+    public string Notes { get; set; } = "";
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
 }

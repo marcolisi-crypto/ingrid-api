@@ -76,4 +76,32 @@ public class ServiceOperationsController : ControllerBase
         var repairOrder = _serviceOperations.AddAccountingEntry(repairOrderId, request);
         return repairOrder == null ? NotFound(new { error = "Repair order not found." }) : Ok(repairOrder);
     }
+
+    [HttpPost("repair-orders/{repairOrderId:guid}/labor-ops")]
+    public IActionResult AddLaborOp(Guid repairOrderId, [FromBody] CreateRepairOrderLaborOpRequest request)
+    {
+        var repairOrder = _serviceOperations.AddLaborOp(repairOrderId, request);
+        return repairOrder == null ? NotFound(new { error = "Repair order not found." }) : Ok(repairOrder);
+    }
+
+    [HttpPost("repair-orders/{repairOrderId:guid}/inspections")]
+    public IActionResult AddInspection(Guid repairOrderId, [FromBody] CreateMultiPointInspectionRequest request)
+    {
+        var repairOrder = _serviceOperations.AddMultiPointInspection(repairOrderId, request);
+        return repairOrder == null ? NotFound(new { error = "Repair order not found." }) : Ok(repairOrder);
+    }
+
+    [HttpPost("repair-orders/{repairOrderId:guid}/warranty-claims")]
+    public IActionResult AddWarrantyClaim(Guid repairOrderId, [FromBody] CreateWarrantyClaimRequest request)
+    {
+        var repairOrder = _serviceOperations.AddWarrantyClaim(repairOrderId, request);
+        return repairOrder == null ? NotFound(new { error = "Repair order not found." }) : Ok(repairOrder);
+    }
+
+    [HttpPost("repair-orders/{repairOrderId:guid}/pay-splits")]
+    public IActionResult AddPaySplit(Guid repairOrderId, [FromBody] CreateRepairOrderPaySplitRequest request)
+    {
+        var repairOrder = _serviceOperations.AddPaySplit(repairOrderId, request);
+        return repairOrder == null ? NotFound(new { error = "Repair order not found." }) : Ok(repairOrder);
+    }
 }
