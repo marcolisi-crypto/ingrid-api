@@ -37,6 +37,7 @@ builder.Services.AddScoped<DmsDatabaseStatusService>();
 builder.Services.AddScoped<NotesService>();
 builder.Services.AddScoped<TasksService>();
 builder.Services.AddScoped<AppointmentsService>();
+builder.Services.AddScoped<ServiceOperationsService>();
 builder.Services.AddSingleton<TwilioSmsService>();
 
 builder.Services.AddCors(options =>

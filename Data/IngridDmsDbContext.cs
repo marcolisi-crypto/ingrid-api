@@ -21,6 +21,11 @@ public class IngridDmsDbContext : DbContext
     public DbSet<DmsNoteEntity> Notes => Set<DmsNoteEntity>();
     public DbSet<DmsTaskEntity> Tasks => Set<DmsTaskEntity>();
     public DbSet<DmsAppointmentEntity> Appointments => Set<DmsAppointmentEntity>();
+    public DbSet<DmsRepairOrderEntity> RepairOrders => Set<DmsRepairOrderEntity>();
+    public DbSet<DmsRepairOrderEstimateLineEntity> RepairOrderEstimateLines => Set<DmsRepairOrderEstimateLineEntity>();
+    public DbSet<DmsRepairOrderPartLineEntity> RepairOrderPartLines => Set<DmsRepairOrderPartLineEntity>();
+    public DbSet<DmsTechnicianClockEventEntity> TechnicianClockEvents => Set<DmsTechnicianClockEventEntity>();
+    public DbSet<DmsAccountingEntryEntity> AccountingEntries => Set<DmsAccountingEntryEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -148,6 +153,72 @@ public class IngridDmsDbContext : DbContext
             entity.Property(x => x.Service).HasMaxLength(100);
             entity.Property(x => x.Advisor).HasMaxLength(100);
             entity.HasIndex(x => x.ScheduledStartUtc);
+        });
+
+        modelBuilder.Entity<DmsRepairOrderEntity>(entity =>
+        {
+            entity.ToTable("repair_orders");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.RepairOrderNumber).HasMaxLength(50);
+            entity.Property(x => x.Status).HasMaxLength(50);
+            entity.Property(x => x.Advisor).HasMaxLength(100);
+            entity.Property(x => x.TransportOption).HasMaxLength(50);
+            entity.Property(x => x.LaborSubtotal).HasPrecision(12, 2);
+            entity.Property(x => x.PartsSubtotal).HasPrecision(12, 2);
+            entity.Property(x => x.FeesSubtotal).HasPrecision(12, 2);
+            entity.Property(x => x.PaymentsApplied).HasPrecision(12, 2);
+            entity.Property(x => x.TotalEstimate).HasPrecision(12, 2);
+            entity.Property(x => x.BalanceDue).HasPrecision(12, 2);
+            entity.HasIndex(x => x.RepairOrderNumber).IsUnique();
+            entity.HasIndex(x => x.CustomerId);
+            entity.HasIndex(x => x.VehicleId);
+            entity.HasIndex(x => x.Status);
+        });
+
+        modelBuilder.Entity<DmsRepairOrderEstimateLineEntity>(entity =>
+        {
+            entity.ToTable("repair_order_estimate_lines");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.LineType).HasMaxLength(50);
+            entity.Property(x => x.OpCode).HasMaxLength(50);
+            entity.Property(x => x.Quantity).HasPrecision(12, 2);
+            entity.Property(x => x.UnitPrice).HasPrecision(12, 2);
+            entity.Property(x => x.Department).HasMaxLength(50);
+            entity.Property(x => x.Status).HasMaxLength(50);
+            entity.HasIndex(x => x.RepairOrderId);
+        });
+
+        modelBuilder.Entity<DmsRepairOrderPartLineEntity>(entity =>
+        {
+            entity.ToTable("repair_order_part_lines");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.PartNumber).HasMaxLength(100);
+            entity.Property(x => x.Quantity).HasPrecision(12, 2);
+            entity.Property(x => x.UnitPrice).HasPrecision(12, 2);
+            entity.Property(x => x.Status).HasMaxLength(50);
+            entity.Property(x => x.Source).HasMaxLength(50);
+            entity.HasIndex(x => x.RepairOrderId);
+        });
+
+        modelBuilder.Entity<DmsTechnicianClockEventEntity>(entity =>
+        {
+            entity.ToTable("technician_clock_events");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.TechnicianName).HasMaxLength(100);
+            entity.Property(x => x.EventType).HasMaxLength(50);
+            entity.Property(x => x.LaborOpCode).HasMaxLength(50);
+            entity.HasIndex(x => x.RepairOrderId);
+            entity.HasIndex(x => x.OccurredAtUtc);
+        });
+
+        modelBuilder.Entity<DmsAccountingEntryEntity>(entity =>
+        {
+            entity.ToTable("accounting_entries");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.EntryType).HasMaxLength(50);
+            entity.Property(x => x.Amount).HasPrecision(12, 2);
+            entity.Property(x => x.Status).HasMaxLength(50);
+            entity.HasIndex(x => x.RepairOrderId);
         });
     }
 }

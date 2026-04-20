@@ -262,3 +262,146 @@ public class AppointmentRecord
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
 }
+
+public class CreateRepairOrderRequest
+{
+    public Guid? CustomerId { get; set; }
+    public Guid? VehicleId { get; set; }
+    public Guid? AppointmentId { get; set; }
+    public string? Advisor { get; set; }
+    public string? Complaint { get; set; }
+    public int? OdometerIn { get; set; }
+    public string? TransportOption { get; set; }
+    public string? Notes { get; set; }
+    public DateTime? PromiseAtUtc { get; set; }
+}
+
+public class UpdateRepairOrderStatusRequest
+{
+    public string? Status { get; set; }
+    public string? Notes { get; set; }
+    public DateTime? ClosedAtUtc { get; set; }
+}
+
+public class CreateRepairOrderEstimateLineRequest
+{
+    public string? LineType { get; set; }
+    public string? OpCode { get; set; }
+    public string? Description { get; set; }
+    public decimal? Quantity { get; set; }
+    public decimal? UnitPrice { get; set; }
+    public string? Department { get; set; }
+    public string? Status { get; set; }
+}
+
+public class CreateRepairOrderPartLineRequest
+{
+    public string? PartNumber { get; set; }
+    public string? Description { get; set; }
+    public decimal? Quantity { get; set; }
+    public decimal? UnitPrice { get; set; }
+    public string? Status { get; set; }
+    public string? Source { get; set; }
+}
+
+public class CreateTechnicianClockEventRequest
+{
+    public string? TechnicianName { get; set; }
+    public string? EventType { get; set; }
+    public string? LaborOpCode { get; set; }
+    public string? Notes { get; set; }
+    public DateTime? OccurredAtUtc { get; set; }
+}
+
+public class CreateAccountingEntryRequest
+{
+    public string? EntryType { get; set; }
+    public string? Description { get; set; }
+    public decimal? Amount { get; set; }
+    public string? Status { get; set; }
+}
+
+public class RepairOrderEstimateLineRecord
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid RepairOrderId { get; set; }
+    public string LineType { get; set; } = "labor";
+    public string OpCode { get; set; } = "";
+    public string Description { get; set; } = "";
+    public decimal Quantity { get; set; } = 1m;
+    public decimal UnitPrice { get; set; }
+    public decimal LineTotal => Quantity * UnitPrice;
+    public string Department { get; set; } = "service";
+    public string Status { get; set; } = "open";
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class RepairOrderPartLineRecord
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid RepairOrderId { get; set; }
+    public string PartNumber { get; set; } = "";
+    public string Description { get; set; } = "";
+    public decimal Quantity { get; set; } = 1m;
+    public decimal UnitPrice { get; set; }
+    public decimal LineTotal => Quantity * UnitPrice;
+    public string Status { get; set; } = "requested";
+    public string Source { get; set; } = "stock";
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class TechnicianClockEventRecord
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid RepairOrderId { get; set; }
+    public string TechnicianName { get; set; } = "";
+    public string EventType { get; set; } = "clock_in";
+    public string LaborOpCode { get; set; } = "";
+    public string Notes { get; set; } = "";
+    public DateTime OccurredAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class AccountingEntryRecord
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid RepairOrderId { get; set; }
+    public string EntryType { get; set; } = "estimate";
+    public string Description { get; set; } = "";
+    public decimal Amount { get; set; }
+    public string Status { get; set; } = "open";
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+}
+
+public class RepairOrderRecord
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid? CustomerId { get; set; }
+    public Guid? VehicleId { get; set; }
+    public Guid? AppointmentId { get; set; }
+    public string RepairOrderNumber { get; set; } = "";
+    public string Status { get; set; } = "open";
+    public string Advisor { get; set; } = "";
+    public string Complaint { get; set; } = "";
+    public int? OdometerIn { get; set; }
+    public string TransportOption { get; set; } = "";
+    public string Notes { get; set; } = "";
+    public DateTime? PromiseAtUtc { get; set; }
+    public DateTime OpenedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime? ClosedAtUtc { get; set; }
+    public decimal LaborSubtotal { get; set; }
+    public decimal PartsSubtotal { get; set; }
+    public decimal FeesSubtotal { get; set; }
+    public decimal PaymentsApplied { get; set; }
+    public decimal TotalEstimate { get; set; }
+    public decimal BalanceDue { get; set; }
+    public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAtUtc { get; set; } = DateTime.UtcNow;
+    public IReadOnlyList<RepairOrderEstimateLineRecord> EstimateLines { get; set; } = Array.Empty<RepairOrderEstimateLineRecord>();
+    public IReadOnlyList<RepairOrderPartLineRecord> PartLines { get; set; } = Array.Empty<RepairOrderPartLineRecord>();
+    public IReadOnlyList<TechnicianClockEventRecord> TechnicianClockEvents { get; set; } = Array.Empty<TechnicianClockEventRecord>();
+    public IReadOnlyList<AccountingEntryRecord> AccountingEntries { get; set; } = Array.Empty<AccountingEntryRecord>();
+}

@@ -161,3 +161,90 @@ create table if not exists appointments (
   created_at_utc timestamptz not null default now(),
   updated_at_utc timestamptz not null default now()
 );
+
+create table if not exists repair_orders (
+  id uuid primary key default gen_random_uuid(),
+  customer_id uuid references customers(id),
+  vehicle_id uuid references vehicles(id),
+  appointment_id uuid references appointments(id),
+  repair_order_number text not null unique,
+  status text not null default 'open',
+  advisor text not null default '',
+  complaint text not null default '',
+  odometer_in int,
+  transport_option text not null default '',
+  notes text not null default '',
+  promise_at_utc timestamptz,
+  opened_at_utc timestamptz not null default now(),
+  closed_at_utc timestamptz,
+  labor_subtotal numeric(12,2) not null default 0,
+  parts_subtotal numeric(12,2) not null default 0,
+  fees_subtotal numeric(12,2) not null default 0,
+  payments_applied numeric(12,2) not null default 0,
+  total_estimate numeric(12,2) not null default 0,
+  balance_due numeric(12,2) not null default 0,
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_repair_orders_customer_id on repair_orders(customer_id);
+create index if not exists idx_repair_orders_vehicle_id on repair_orders(vehicle_id);
+create index if not exists idx_repair_orders_status on repair_orders(status);
+
+create table if not exists repair_order_estimate_lines (
+  id uuid primary key default gen_random_uuid(),
+  repair_order_id uuid not null references repair_orders(id) on delete cascade,
+  line_type text not null default 'labor',
+  op_code text not null default '',
+  description text not null default '',
+  quantity numeric(12,2) not null default 1,
+  unit_price numeric(12,2) not null default 0,
+  department text not null default 'service',
+  status text not null default 'open',
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_ro_estimate_lines_repair_order_id on repair_order_estimate_lines(repair_order_id);
+
+create table if not exists repair_order_part_lines (
+  id uuid primary key default gen_random_uuid(),
+  repair_order_id uuid not null references repair_orders(id) on delete cascade,
+  part_number text not null default '',
+  description text not null default '',
+  quantity numeric(12,2) not null default 1,
+  unit_price numeric(12,2) not null default 0,
+  status text not null default 'requested',
+  source text not null default 'stock',
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_ro_part_lines_repair_order_id on repair_order_part_lines(repair_order_id);
+
+create table if not exists technician_clock_events (
+  id uuid primary key default gen_random_uuid(),
+  repair_order_id uuid not null references repair_orders(id) on delete cascade,
+  technician_name text not null default '',
+  event_type text not null default 'clock_in',
+  labor_op_code text not null default '',
+  notes text not null default '',
+  occurred_at_utc timestamptz not null default now(),
+  created_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_technician_clock_events_repair_order_id on technician_clock_events(repair_order_id);
+create index if not exists idx_technician_clock_events_occurred_at_utc on technician_clock_events(occurred_at_utc desc);
+
+create table if not exists accounting_entries (
+  id uuid primary key default gen_random_uuid(),
+  repair_order_id uuid not null references repair_orders(id) on delete cascade,
+  entry_type text not null default 'estimate',
+  description text not null default '',
+  amount numeric(12,2) not null default 0,
+  status text not null default 'open',
+  created_at_utc timestamptz not null default now(),
+  updated_at_utc timestamptz not null default now()
+);
+
+create index if not exists idx_accounting_entries_repair_order_id on accounting_entries(repair_order_id);
